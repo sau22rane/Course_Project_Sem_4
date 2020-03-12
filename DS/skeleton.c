@@ -24,7 +24,7 @@ typedef struct list
 
 //functions for insert 
 
-node* search (char from[20], char to[20], char date[20], node *root)\
+list* search (char from[20], char to[20], char date[20], node *root)\
 {
 
 }
@@ -36,5 +36,5 @@ void display (list *l)
 
 int main()
 {
-    
+
 }
