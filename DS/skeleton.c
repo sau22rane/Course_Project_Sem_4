@@ -4,10 +4,10 @@
 
 typedef struct node
 {
-    int flight_number;
+    /* int flight_number;
     char flight_name[20];
     int price;
-    char time[10];
+    char time[10]; */
     char date[20];
     char from[20];
     char to[20];
