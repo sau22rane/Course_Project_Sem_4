@@ -1,50 +1,150 @@
 #include<stdio.h> 
 #include<stdlib.h>
+#include<string.h>
 
 typedef struct Node{ 
     int key; 
     struct Node *left, *right; 
-    int height; 
+    int height;
+    char date[20],from[20],dst[20]; 
 }Node; 
+
+typedef struct LinkedListNode{
+    Node *ptr;
+    struct LinkedListNode *next;
+} LinkedListNode;
   
-// A utility function to get maximum of two integers 
+
 int max(int a, int b); 
-  
-// A utility function to get the height of the tree 
-int height(Node *N) 
-{ 
-    if (N == NULL) 
-        return 0; 
-    return N->height; 
+int height(Node *N);
+Node* newNode(int,char a[],char b[],char c[]);
+Node *rightRotate(Node *y);
+int getBalance(Node *N);
+Node *leftRotate(Node *x) ;
+Node* insert(Node* node, int key, char a[],char b[],char c[]);
+void preOrder(Node *root);
+Node * minValueNode(Node* node);
+Node* deleteNode(Node* root, int key) ;
+void search(Node *root, char a[], char b[], char c[]) ;
+void add(Node *root);
+LinkedListNode *head=NULL;
+
+void search(Node *root, char a[], char b[], char c[]) { 
+    if(root != NULL) { 
+        if(strcmp(root->date,a)==0){
+            add(root);
+        }
+        search(root->left,a,b,c); 
+        search(root->right,a,b,c); 
+    } 
 } 
+
+void add(Node *root){
+    if(head == NULL){
+        head = (LinkedListNode*) malloc(sizeof(LinkedListNode));
+        head->ptr = root;
+        head-> next = NULL;
+    }
+    else{
+        LinkedListNode *temp;
+        temp = (LinkedListNode*) malloc(sizeof(LinkedListNode));
+        temp->ptr = root;
+        temp-> next = head;
+        head = temp;
+    }
+}
+
+void display(){
+    LinkedListNode *temp = head;
+    while(temp){
+        printf("%d %s %s %s\n",temp->ptr->key,temp->ptr->date,temp->ptr->from,temp->ptr->dst);
+        temp = temp->next;
+    }
+}
   
-// A utility function to get maximum of two integers 
-int max(int a, int b) 
-{ 
-    return (a > b)? a : b; 
+int main() { 
+  Node *root = NULL; 
+  char date[20],from[20],dst[20];
+  int data,choice;
+  while(1){
+        printf("\nSelect one of the following:\n1. Insert\n2. Pre-Order Traversal\n3. Delete\n0. Exit\n\nYour Selection:");
+        scanf("%d",&choice);
+        switch(choice){
+            case 1:
+                printf("\nEnter the number to be inserted: ");
+                scanf("%d",&data);
+                scanf("%*c%[^\n]",date);
+                scanf("%*c%[^\n]",from);
+                scanf("%*c%[^\n]",dst);
+                root = insert(root,data,date,from,dst);
+                break;
+            case 2:
+                printf("Preorder traversal of the constructed AVL tree is \n"); 
+                scanf("%*c%[^\n]",date);
+                search(root,date,from,dst);
+                display();
+                break;
+            case 3:
+                printf("\nEnter the number to be deleted: ");
+                scanf("%d",&data);
+                deleteNode(root,data);
+                break;
+            case 0:
+                exit(1);
+        }
+    }
+  return 0; 
 } 
-  
-/* Helper function that allocates a new node with the given key and 
-    NULL left and right pointers. */
-Node* newNode(int key) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Node* newNode(int key, char a[],char b[],char c[]) 
 { 
-    Node* node = (Node*) 
-                        malloc(sizeof(Node)); 
+    Node* node = (Node*) malloc(sizeof(Node)); 
     node->key   = key; 
+    strcpy(node->date,a);
+    strcpy(node->from,b);
+    strcpy(node->dst,c);
     node->left   = NULL; 
     node->right  = NULL; 
-    node->height = 1;  // new node is initially added at leaf 
+    node->height = 1;  
     return(node); 
 } 
-  
-// A utility function to right rotate subtree rooted with y 
-// See the diagram given above. 
+
 Node *rightRotate(Node *y) 
 { 
     Node *x = y->left; 
     Node *temp = x->right; 
   
-    // Perform rotation 
+
     x->right = y; 
     y->left = temp; 
   
@@ -84,21 +184,20 @@ int getBalance(Node *N) {
   
 // Recursive function to insert a key in the subtree rooted 
 // with node and returns the new root of the subtree. 
-Node* insert(Node* node, int key) { 
+Node* insert(Node* node, int key, char a[],char b[],char c[]) { 
     /* 1.  Perform the normal BST insertion */
     if (node == NULL) 
-        return(newNode(key)); 
+        return(newNode(key,a,b,c)); 
   
     if (key < node->key) 
-        node->left  = insert(node->left, key); 
+        node->left  = insert(node->left, key,a,b,c); 
     else if (key > node->key) 
-        node->right = insert(node->right, key); 
+        node->right = insert(node->right, key, a,b,c); 
     else // Equal keys are not allowed in BST 
         return node; 
   
     /* 2. Update height of this ancestor node */
-    node->height = 1 + max(height(node->left), 
-                           height(node->right)); 
+    node->height = 1 + max(height(node->left), height(node->right)); 
   
     /* 3. Get the balance factor of this ancestor 
           node to check whether this node became 
@@ -133,7 +232,7 @@ Node* insert(Node* node, int key) {
 } 
 void preOrder(Node *root) { 
     if(root != NULL) { 
-        printf("%d ", root->key); 
+        printf("%d %s", root->key, root->date); 
         preOrder(root->left); 
         preOrder(root->right); 
     } 
@@ -239,41 +338,20 @@ Node* deleteNode(Node* root, int key)
   
     return root; 
 } 
-  
-int main() { 
-  Node *root = NULL; 
-  int data,choice;
-  while(1){
-        printf("\nSelect one of the following:\n1. Insert\n2. Pre-Order Traversal\n3. Delete\n0. Exit\n\nYour Selection:");
-        scanf("%d",&choice);
-        switch(choice){
-            case 1:
-                printf("\nEnter the number to be inserted: ");
-                scanf("%d",&data);
-                root = insert(root,data);
-                break;
-            case 2:
-                printf("Preorder traversal of the constructed AVL tree is \n"); 
-                preOrder(root);
-                break;
-            case 3:
-                printf("\nEnter the number to be deleted: ");
-                scanf("%d",&data);
-                deleteNode(root,data);
-                break;
-            case 0:
-                exit(1);
-        }
-    }
-  
-  /* root = insert(root, 10); 
-  root = insert(root, 20); 
-  root = insert(root, 30); 
-  root = insert(root, 40); 
-  root = insert(root, 50); 
-  root = insert(root, 25);  */
 
-  
-  
-  return 0; 
+
+int height(Node *N) 
+{ 
+    if (N == NULL) 
+        return 0; 
+    return N->height; 
+}  
+
+int max(int a, int b) 
+{ 
+    return (a > b)? a : b; 
 } 
+
+
+
+
