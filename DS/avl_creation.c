@@ -31,7 +31,7 @@ LinkedListNode *head=NULL;
 
 void search(Node *root, char a[], char b[], char c[]) { 
     if(root != NULL) { 
-        if(strcmp(root->date,a)==0){
+        if(strcmp(root->date,a)==0 && strcmp(root->from,b)==0 && strcmp(root->dst,c)==0){
             add(root);
         }
         search(root->left,a,b,c); 
