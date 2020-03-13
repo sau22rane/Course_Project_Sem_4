@@ -182,11 +182,13 @@ void display(struct LinkedListNode* head)
 	{
 		while(temp->next!=NULL)
 		{
+            printf("----------------------------------------------------------------\n");
 			printf("%d\t %s\t %s\t %s\t %s\t %s\t %d\t \n", temp->ptr->flight_number, temp->ptr->flight_name, temp->ptr->date, temp->ptr->time, temp->ptr->from, temp->ptr->dst, temp->ptr->price );
             printf("----------------------------------------------------------------\n");
 			temp=temp->next;
 		}
 		printf("%d\t %s\t %s\t %s\t %s\t %s\t %d\t \n\n", temp->ptr->flight_number, temp->ptr->flight_name, temp->ptr->date, temp->ptr->time, temp->ptr->from, temp->ptr->dst, temp->ptr->price );
+        printf("----------------------------------------------------------------\n");
 	}
 }
 
@@ -245,6 +247,7 @@ int main()
 
                     search (root, date, from, to);
                     display(head);
+                    head = NULL;
                     break;
 
             case 3 : return 0;
