@@ -192,6 +192,57 @@ void display(struct LinkedListNode* head)
 	}
 }
 
+void update(Node *root, int flight_number){
+    int found =0, choice;
+    while(root != NULL) 
+    { 
+        if(root->flight_number<flight_number)
+        {
+            root = root->right;
+            continue;
+        }
+        if(root->flight_number>flight_number)
+        {
+            root = root->left;
+            continue;
+        }
+        if(root->flight_number == flight_number)
+        {
+            found = 1;
+            break;
+        }
+    } 
+    if(found){
+        printf("\nUpdating data of flight number %d: %s\n",flight_number,root->flight_name);
+        while(1){
+            printf("Select the field which has to be updated\n1. Price: %d\n2. Time: %s\n3. Date: %s\n4. Departue city: %s\n5. Arrival city: %s\n0. Done Updating\nYour Selection: ", root->price, root->time, root->date, root->from, root->dst);
+            scanf("%d",&choice);
+            switch(choice){
+                case 1: printf("Enter the new price: ");
+                        scanf("%d",&root->price);
+                        break;
+                case 2: printf("Enter the new time of departure: ");
+                        scanf("%s",root->time);
+                        break;
+                case 3: printf("Enter the new date of departure: ");
+                        scanf("%s",root->date);
+                        break;
+                case 4: printf("Enter the new departure city: ");
+                        scanf("%s",root->from);
+                        break;
+                case 5: printf("Enter the new arrival city: ");
+                        scanf("%s",root->dst);
+                        break;
+                case 0: return ;
+            }
+        }
+    }
+    else{
+        printf("Flight to be Updated not found!!\n");
+        return;
+    }
+}
+
 int main()
 {
     int c, n;
@@ -204,7 +255,7 @@ int main()
 
     while(j>0)
     {
-        printf ("1. Add Flight Data \n2. Book Flights \n3. Exit\n");
+        printf ("1. Add Flight Data \n2. Book Flights \n3. Update\n0. Exit\n");
         printf ("your choice : ");
         scanf ("%d", &c); 
 
@@ -250,7 +301,12 @@ int main()
                     head = NULL;
                     break;
 
-            case 3 : return 0;
+            case 3: printf ("Enter flight number : ");
+                    scanf ("%d", &flight_number);
+                    update(root, flight_number);
+                    break;
+
+            case 4 : return 0;
         }
     }
 }
