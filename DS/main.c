@@ -243,6 +243,79 @@ void update(Node *root, int flight_number){
     }
 }
 
+Node * minValueNode(Node* node)  
+{  
+    Node* current = node;  
+    while (current->left != NULL)  
+        current = current->left;  
+    return current;
+}  
+
+
+Node* deleteNode(Node* root, int flight_number)  
+{  
+      
+    if (root == NULL)  
+    {
+        printf("\nNo flight record by that number exits\n");
+        return root;
+    }
+    if ( flight_number < root->flight_number )  
+        root->left = deleteNode(root->left, flight_number);
+    else if( flight_number > root->flight_number )  
+        root->right = deleteNode(root->right, flight_number);  
+  
+    else
+    {  
+        printf("\nRecord by flight number %d deleted\n",flight_number);
+        if( (root->left == NULL) || (root->right == NULL) )  
+        {  
+            Node *temp = root->left ? root->left : root->right; 
+            if (temp == NULL)  
+            {  
+                temp = root;  
+                root = NULL;  
+            }  
+            else 
+            *root = *temp;
+
+            free(temp);  
+        }  
+        else
+        {   
+            Node* temp = minValueNode(root->right);  
+            root->flight_number = temp->flight_number;  
+            root->right = deleteNode(root->right, temp->flight_number);  
+        }  
+    }  
+
+    if (root == NULL)  
+    return root;  
+    root->height = 1 + max(height(root->left), height(root->right));  
+    int balance = getBalance(root);  
+  
+    if (balance > 1 && getBalance(root->left) >= 0)  
+        return rightRotate(root);  
+   
+    if (balance > 1 && getBalance(root->left) < 0)  
+    {  
+        root->left = leftRotate(root->left);  
+        return rightRotate(root);  
+    }  
+
+    if (balance < -1 && getBalance(root->right) <= 0)  
+        return leftRotate(root);  
+  
+    if (balance < -1 && getBalance(root->right) > 0)  
+    {  
+        root->right = rightRotate(root->right);  
+        return leftRotate(root);  
+    }  
+  
+    return root;  
+}  
+
+
 int main()
 {
     int c, n;
@@ -255,7 +328,7 @@ int main()
 
     while(j>0)
     {
-        printf ("1. Add Flight Data \n2. Book Flights \n3. Update\n0. Exit\n");
+        printf ("1. Add Flight Data \n2. Book Flights \n3. Update\n4. Delete a recoed\n5. Exit\n");
         printf ("your choice : ");
         scanf ("%d", &c); 
 
@@ -305,8 +378,17 @@ int main()
                     scanf ("%d", &flight_number);
                     update(root, flight_number);
                     break;
+            
+            case 4:printf ("Enter flight number to delete : ");
+                    scanf ("%d", &flight_number);
+                    deleteNode(root, flight_number);
+                    break;
 
-            case 4 : return 0;
+            case 5 : return 0;
         }
     }
 }
+
+
+
+
