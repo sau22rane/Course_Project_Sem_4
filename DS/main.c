@@ -308,7 +308,7 @@ void update(Node *root, int flight_number)
         
         while(1)
         {
-            printf("Select the field which has to be updated\n1. Price: %d\n2. Time: %s\n3. Date: %s\n4. Departue city: %s\n5. Arrival city: %s\n0. Done Updating\nYour Selection: ", root->price, root->time, root->date, root->from, root->dst);
+            printf("\nSelect the field which has to be updated\n1. Price: %d\n2. Time: %s\n3. Date: %s\n4. Departue city: %s\n5. Arrival city: %s\n0. Done Updating\n\nYour Selection: ", root->price, root->time, root->date, root->from, root->dst);
             scanf("%d",&choice);
             
             switch(choice)
@@ -352,7 +352,7 @@ void write (Node *root)
     if(root != NULL) 
     { 
         write(root->left); 
-        fprintf (fp, "%d %s %s %s %s %s Rs.%d\n", root->flight_number, root->flight_name, root->from,root->dst, root->date, root->time, root->price);
+        fprintf (fp, "%d %s %s %s %s %s %d\n", root->flight_number, root->flight_name, root->from,root->dst, root->date, root->time, root->price);
         write(root->right); 
     }
 
@@ -410,16 +410,18 @@ int main()
                     
                     break;
 
-            case 3: printf ("Enter flight number whose data you want to update : ");
+            case 3: printf ("\nEnter flight number whose data you want to update : ");
                     scanf ("%d", &flight_number);
 
                     update (root, flight_number);                  
+                    
                     break;
 
             case 4: { }
                     FILE *fp = fopen ("flight data.txt", "w+");
                     fclose (fp);
                     write (root);
+                    
                     return 0;
         }
     }
