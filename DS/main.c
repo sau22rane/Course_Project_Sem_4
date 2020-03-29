@@ -5,9 +5,9 @@
 typedef struct Node
 {
     int flight_number;
-    /* char flight_name[20];
+    char flight_name[20];
     int price;
-    char time[10]; */
+    char time[10];
     char date[20];
     char from[20];
     char dst[20];
@@ -16,14 +16,24 @@ typedef struct Node
     int height;
 }Node;
 
+typedef struct LinkedListNode
+{
+    Node *ptr;
+    struct LinkedListNode *next;
+} LinkedListNode;
 
-Node* newNode(int key, char a[],char b[],char c[]) 
+LinkedListNode *head=NULL;
+
+Node* newNode(int key, char a[],char b[],char c[], char d[], char e[], int f) 
 { 
     Node* node = (Node*) malloc(sizeof(Node)); 
-    node->flight_number   = key; 
+    node->flight_number  = key; 
+    node->price = f;
     strcpy(node->date,a);
     strcpy(node->from,b);
     strcpy(node->dst,c);
+    strcpy(node->flight_name,d);
+    strcpy(node->time,e);
     node->left   = NULL; 
     node->right  = NULL; 
     node->height = 1; 
@@ -80,15 +90,15 @@ int getBalance(Node *N)
     return height(N->left) - height(N->right); 
 } 
 
-Node* insert(Node* node, int key, char a[],char b[],char c[]) 
+Node* insert(Node* node, int key, char a[],char b[],char c[], char d[], char e[], int f)
 { 
     if (node == NULL) 
-        return(newNode(key,a,b,c)); 
+        return(newNode(key,a,b,c,d,e,f)); 
   
     if (key < node->flight_number) 
-        node->left  = insert(node->left, key,a,b,c); 
+        node->left  = insert(node->left, key,a,b,c,d,e,f); 
     else if (key > node->flight_number) 
-        node->right = insert(node->right, key, a,b,c); 
+        node->right = insert(node->right, key, a,b,c,d,e,f); 
     else
         return node; 
   
@@ -126,40 +136,111 @@ void preOrder(Node *root)
     } 
 } 
 
+void add(Node* root)
+{
+    if(head == NULL)
+    {
+        head = (LinkedListNode*) malloc(sizeof(LinkedListNode));
+        head->ptr = root;
+        head-> next = NULL;
+    }
+
+    else
+    {
+        LinkedListNode *temp;
+        temp = (LinkedListNode*) malloc(sizeof(LinkedListNode));
+        temp->ptr = root;
+        temp-> next = head;
+        head = temp;
+    }
+}
+
+void search(Node *root, char a[], char b[], char c[]) 
+{
+    if(root != NULL) 
+    { 
+        if(strcmp(root->date,a)==0 && strcmp(root->from,b)==0 && strcmp(root->dst,c)==0)
+        {
+            add(root);
+        }
+        search(root->left,a,b,c); 
+        search(root->right,a,b,c); 
+    } 
+} 
+
+void display(struct LinkedListNode* head)
+{
+	struct LinkedListNode *temp;
+	temp=head;
+
+	if(head==NULL)
+	{
+		printf("No flights\n");
+	}
+
+	else
+	{
+		while(temp->next!=NULL)
+		{
+            printf("----------------------------------------------------------------\n");
+			printf("%d\t %s\t %s\t %s\t %s\t %s\t %d\t \n", temp->ptr->flight_number, temp->ptr->flight_name, temp->ptr->date, temp->ptr->time, temp->ptr->from, temp->ptr->dst, temp->ptr->price );
+            printf("----------------------------------------------------------------\n");
+			temp=temp->next;
+		}
+		printf("%d\t %s\t %s\t %s\t %s\t %s\t %d\t \n\n", temp->ptr->flight_number, temp->ptr->flight_name, temp->ptr->date, temp->ptr->time, temp->ptr->from, temp->ptr->dst, temp->ptr->price );
+        printf("----------------------------------------------------------------\n");
+	}
+}
+
 int main()
 {
     int c, n;
-    char date[20], from[20], to[20];
+    char date[20], from[20], to[20], flight_name[20], time[20], name[20];
     Node *root;
-    //root = new = (node*) malloc(sizeof(node));
     root = NULL;
 
-    int flight_number;
+    FILE *fp;
 
-    printf ("1. Add Flight Data \n2. Book Flights \n3. Exit\n");
-    scanf ("%d", &c); 
-    
-    switch (c)
+    int flight_number, price;
+    int j =1;
+
+    while(j>0)
     {
-        case 1: printf ("Enter number of flights to be added : ");
-                scanf ("%d", &n);
+        printf ("1. Add Flight Data \n2. Book Flights \n3. Exit\n");
+        printf ("your choice : ");
+        scanf ("%d", &c); 
 
-                for (int i = 0; i < n; i++)
-                {
-                    printf ("1");
-                    printf ("Enter flight number : ");
-                    scanf ("%d", &flight_number);
-                    printf ("Enter date : ");
-                    scanf ("%s", date);
-                    printf ("Enter departure city : ");
+        switch (c)
+        {
+            case 1: fp = fopen ("flight data.txt", "r+");
+
+                    while (!feof(fp))
+                    {
+                    fscanf (fp, "%d %s %s %s %s %s %d", &flight_number, name, from, to, date, time, &price);
+                    root = insert (root, flight_number, date, from, to, flight_name, time, price);
+                    }
+                    
+                    /* printf ("\npreorder : ");
+                    preOrder (root); */
+
+                    break;
+
+            case 2: printf ("Enter departure city : ");
                     scanf ("%s", from);
                     printf ("Enter Arrival city : ");
                     scanf ("%s", to);
+                    printf ("Enter date : ");
+                    scanf ("%s", date);
 
-                    root = insert (root, flight_number, date, from, to);
-                }
-                printf ("\npreorder : ");
-                preOrder (root);
+                    search (root, date, from, to);
+                    display(head);
+                    head = NULL;
+                    
+                    break;
+
+            case 3 : return 0;
+        }
     }
-    return 0;
 }
+
+
