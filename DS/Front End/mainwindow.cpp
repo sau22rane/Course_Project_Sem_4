@@ -31,38 +31,38 @@ int MainWindow::display(struct LinkedListNode* head)
     else
     {
         ui->stackedWidget->setCurrentIndex(1);
-        QStringList titles;
-        ui->tableWidget->setColumnCount(8);
-        titles<<"Sr No."<<"Flight No."<<"Airline"<<"From"<<"To"<<"Date"<<"Time"<<"Price";
-        ui->tableWidget->setHorizontalHeaderLabels(titles);
         while (ui->tableWidget->rowCount()>0)
             ui->tableWidget->removeRow(0);
         struct LinkedListNode *temp;
         temp=head;
         while(temp->next!=NULL)
         {
-            QString Index(temp->index);
-            ui->statusbar->showMessage(Index);
-            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,0,new QTableWidgetItem("1"));
-            QString FN(temp->ptr->flight_number);
-            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,1,new QTableWidgetItem(FN));
+            ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+            QString Index = QString::number(temp->index);
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,0,new QTableWidgetItem(Index));
+            QString Fn = QString::number(temp->ptr->flight_number);
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,1,new QTableWidgetItem(Fn));
             ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,2,new QTableWidgetItem(temp->ptr->flight_name));
             ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,3,new QTableWidgetItem(temp->ptr->from));
             ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,4,new QTableWidgetItem(temp->ptr->dst));
             ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,5,new QTableWidgetItem(temp->ptr->date));
             ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,6,new QTableWidgetItem(temp->ptr->time));
-            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,7,new QTableWidgetItem(temp->ptr->price));
+            QString Price = QString::number(temp->ptr->price);
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,7,new QTableWidgetItem(Price));
             temp=temp->next;
         }
-        QString Index(temp->index);
+        ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+        QString Index = QString::number(temp->index);
         ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,0,new QTableWidgetItem(Index));
-        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,1,new QTableWidgetItem(temp->ptr->flight_number));
+        QString Fn = QString::number(temp->ptr->flight_number);
+        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,1,new QTableWidgetItem(Fn));
         ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,2,new QTableWidgetItem(temp->ptr->flight_name));
         ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,3,new QTableWidgetItem(temp->ptr->from));
         ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,4,new QTableWidgetItem(temp->ptr->dst));
         ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,5,new QTableWidgetItem(temp->ptr->date));
         ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,6,new QTableWidgetItem(temp->ptr->time));
-        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,7,new QTableWidgetItem(temp->ptr->price));
+        QString Price = QString::number(temp->ptr->price);
+        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,7,new QTableWidgetItem(Price));
         return 1;
     }
 }
@@ -193,6 +193,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowTitle("Airline Reservation System");
+    QStringList titles;
+    ui->tableWidget->setColumnCount(8);
+    titles<<"Flight No."<<"Airline"<<"From"<<"To"<<"Date"<<"Time"<<"Price";
+    ui->tableWidget->setHorizontalHeaderLabels(titles);
     ui->stackedWidget->setCurrentIndex(0);
 }
 
@@ -205,8 +209,10 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_Search_Flights_2_clicked()
 {
     Node *root=NULL;
+    while (ui->tableWidget->rowCount()>0)
+        ui->tableWidget->removeRow(0);
     QFile file("C:/Users/Pro1501/Desktop/DS Course Project/flight data.txt");
-    if(!file.open(QIODevice::ReadOnly))
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
         QMessageBox::information(0,"Info",file.errorString());
 
     QTextStream in(&file);
@@ -221,28 +227,28 @@ void MainWindow::on_pushButton_Search_Flights_2_clicked()
         int ifno=atoi(fno);
 
         QString Fname = A[1];
-        ba = Fname.toLatin1();
-        char *fname=ba.data();
+        QByteArray bb = Fname.toLatin1();
+        char *fname=bb.data();
 
         QString Fr = A[2];
-        ba = Fr.toLatin1();
-        char *fr=ba.data();
+        QByteArray bc = Fr.toLatin1();
+        char *fr=bc.data();
 
         QString To = A[3];
-        ba = To.toLatin1();
-        char *to=ba.data();
+        QByteArray bd = To.toLatin1();
+        char *to=bd.data();
 
         QString Fdate = A[4];
-        ba = Fdate.toLatin1();
-        char *fdate=ba.data();
+        QByteArray be = Fdate.toLatin1();
+        char *fdate=be.data();
 
         QString Ftime = A[5];
-        ba = Ftime.toLatin1();
-        char *ftime=ba.data();
+        QByteArray bf = Ftime.toLatin1();
+        char *ftime=bf.data();
 
         QString Fprice = A[6];
-        ba = Fprice.toLatin1();
-        char *fprice=ba.data();
+        QByteArray bg = Fprice.toLatin1();
+        char *fprice=bg.data();
         int ifprice=atoi(fprice);
 
         root = insert(root, ifno, fdate, fr, to, fname, ftime, ifprice);
@@ -250,14 +256,14 @@ void MainWindow::on_pushButton_Search_Flights_2_clicked()
     file.close();
 
     QString From = ui->lineEdit_From_2->text();
-    QByteArray ba = From.toLatin1();
-    char *from=ba.data();
+    QByteArray bh = From.toLatin1();
+    char *from=bh.data();
     QString To = ui->lineEdit_To_2->text();
-    ba = To.toLatin1();
-    char *to=ba.data();
+    QByteArray bi = To.toLatin1();
+    char *to=bi.data();
     QString Date = ui->lineEdit_Date_2->text();
-    ba = Date.toLatin1();
-    char *date=ba.data();
+    QByteArray bj = Date.toLatin1();
+    char *date=bj.data();
 
     search(root, date, from, to);
     int no = display(head);
