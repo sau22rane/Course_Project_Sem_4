@@ -7,6 +7,8 @@
 #include <QTextStream>
 #include <QMessageBox>
 
+int ino,i,indx,c=0,c1=0,e=0,p=0,j=1;
+
 Node* newNode(int key, char a[],char b[],char c[], char d[], char e[], int f)
 {
     Node* node = (Node*) malloc(sizeof(Node));
@@ -38,31 +40,27 @@ int MainWindow::display(struct LinkedListNode* head)
         while(temp->next!=NULL)
         {
             ui->tableWidget->insertRow(ui->tableWidget->rowCount());
-            QString Index = QString::number(temp->index);
-            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,0,new QTableWidgetItem(Index));
             QString Fn = QString::number(temp->ptr->flight_number);
-            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,1,new QTableWidgetItem(Fn));
-            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,2,new QTableWidgetItem(temp->ptr->flight_name));
-            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,3,new QTableWidgetItem(temp->ptr->from));
-            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,4,new QTableWidgetItem(temp->ptr->dst));
-            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,5,new QTableWidgetItem(temp->ptr->date));
-            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,6,new QTableWidgetItem(temp->ptr->time));
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,0,new QTableWidgetItem(Fn));
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,1,new QTableWidgetItem(temp->ptr->flight_name));
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,2,new QTableWidgetItem(temp->ptr->from));
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,3,new QTableWidgetItem(temp->ptr->dst));
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,4,new QTableWidgetItem(temp->ptr->date));
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,5,new QTableWidgetItem(temp->ptr->time));
             QString Price = QString::number(temp->ptr->price);
-            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,7,new QTableWidgetItem(Price));
+            ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,6,new QTableWidgetItem(Price));
             temp=temp->next;
         }
         ui->tableWidget->insertRow(ui->tableWidget->rowCount());
-        QString Index = QString::number(temp->index);
-        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,0,new QTableWidgetItem(Index));
         QString Fn = QString::number(temp->ptr->flight_number);
-        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,1,new QTableWidgetItem(Fn));
-        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,2,new QTableWidgetItem(temp->ptr->flight_name));
-        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,3,new QTableWidgetItem(temp->ptr->from));
-        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,4,new QTableWidgetItem(temp->ptr->dst));
-        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,5,new QTableWidgetItem(temp->ptr->date));
-        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,6,new QTableWidgetItem(temp->ptr->time));
+        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,0,new QTableWidgetItem(Fn));
+        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,1,new QTableWidgetItem(temp->ptr->flight_name));
+        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,2,new QTableWidgetItem(temp->ptr->from));
+        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,3,new QTableWidgetItem(temp->ptr->dst));
+        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,4,new QTableWidgetItem(temp->ptr->date));
+        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,5,new QTableWidgetItem(temp->ptr->time));
         QString Price = QString::number(temp->ptr->price);
-        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,7,new QTableWidgetItem(Price));
+        ui->tableWidget->setItem(ui->tableWidget->rowCount()-1,6,new QTableWidgetItem(Price));
         return 1;
     }
 }
@@ -187,6 +185,32 @@ Node* insert(Node* node, int key, char a[],char b[],char c[], char d[], char e[]
     return node;
 }
 
+void MainWindow::book(struct LinkedListNode* head)
+{
+    int amount;
+    LinkedListNode *temp;
+    temp = head;
+
+    while(temp->index != indx)
+        temp=temp->next;
+    QString Fn = QString::number(temp->ptr->flight_number);
+    QString Fprice = QString::number(temp->ptr->price);
+
+    QFile file("C:/Users/Pro1501/Desktop/DS Course Project/Flight Ticket.txt");
+    if(!file.open(QIODevice::Append | QIODevice::Text))
+        QMessageBox::information(0,"Info",file.errorString());
+
+    QTextStream out(&file);
+    out << "Flight Information:-" << endl << "Flight Number: " << Fn << endl << "Airline: " << temp->ptr->flight_name << endl << "From: " << temp->ptr->from << endl << "To: " << temp->ptr->dst << endl << "Date: " << temp->ptr->date << endl << "Departure Time: "<< temp->ptr->time << endl;
+    out<<"----------------------------------------------------------------------------------------------------------------------------------";
+
+    amount = ino * temp->ptr->price;
+    QString Amount = QString::number(amount);
+    ui->plainTextEdit_Total_Amount->setPlainText(Amount);
+    ui->statusbar->showMessage("Warning: Do not press EXIT before verification. Press CANCEL to cancel the booking");
+    file.close();
+}
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -208,7 +232,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_Search_Flights_2_clicked()
 {
-    Node *root=NULL;
+    e=0;
+    ui->statusbar->showMessage("");
     while (ui->tableWidget->rowCount()>0)
         ui->tableWidget->removeRow(0);
     QFile file("C:/Users/Pro1501/Desktop/DS Course Project/flight data.txt");
@@ -216,6 +241,7 @@ void MainWindow::on_pushButton_Search_Flights_2_clicked()
         QMessageBox::information(0,"Info",file.errorString());
 
     QTextStream in(&file);
+    Node *root=NULL;
     while (!in.atEnd())
     {
         QString line = in.readLine();
@@ -267,26 +293,311 @@ void MainWindow::on_pushButton_Search_Flights_2_clicked()
 
     search(root, date, from, to);
     int no = display(head);
+    if (From == "" || To == "" || Date == "")
+    {
+        ui->statusbar->showMessage("Please fill up all details");
+        return;
+    }
     if (no==0)
         ui->statusbar->showMessage("No Flights Available",3000);
 }
 
 void MainWindow::on_pushButton_Exit_clicked()
 {
-    MainWindow::close();
+    e+=1;
+    ui->statusbar->showMessage("Press EXIT again to confirm");
+    if(e==2)
+    {
+        QFile file("C:/Users/Pro1501/Desktop/DS Course Project/Flight Ticket.txt");
+        if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+            QMessageBox::information(0,"Info",file.errorString());
+        QTextStream out(&file);
+        out << "";
+        file.close();
+        QFile file2("C:/Users/Pro1501/Desktop/DS Course Project/confirm.txt");
+        if(!file2.open(QIODevice::WriteOnly | QIODevice::Text))
+            QMessageBox::information(0,"Info",file2.errorString());
+        QTextStream out2(&file2);
+        out2 << "";
+        MainWindow::close();
+    }
 }
 
 void MainWindow::on_pushButton_Exit_3_clicked()
 {
-    MainWindow::close();
+    e+=1;
+    ui->statusbar->showMessage("Press EXIT again to confirm");
+    if(e==2)
+    {
+        QFile file("C:/Users/Pro1501/Desktop/DS Course Project/Flight Ticket.txt");
+        if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+            QMessageBox::information(0,"Info",file.errorString());
+        QTextStream out(&file);
+        out << "";
+        file.close();
+        QFile file2("C:/Users/Pro1501/Desktop/DS Course Project/confirm.txt");
+        if(!file2.open(QIODevice::WriteOnly | QIODevice::Text))
+            QMessageBox::information(0,"Info",file2.errorString());
+        QTextStream out2(&file2);
+        out2 << "";
+        MainWindow::close();
+    }
 }
 
 void MainWindow::on_pushButton_Book_a_Flight_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(2);
+    int flag=0;
+    i=0;
+    e=0;
+    c1=0;
+    ui->statusbar->showMessage("");
+    LinkedListNode *temp;
+    temp = head;
+    QFile file("C:/Users/Pro1501/Desktop/DS Course Project/Flight Ticket.txt");
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+        QMessageBox::information(0,"Info",file.errorString());
+    QTextStream out(&file);
+    out << "";
+    file.close();
+    QFile file2("C:/Users/Pro1501/Desktop/DS Course Project/confirm.txt");
+    if(!file2.open(QIODevice::WriteOnly | QIODevice::Text))
+        QMessageBox::information(0,"Info",file2.errorString());
+    QTextStream out2(&file2);
+    out2 << "";
+    file.close();
+    QString ind = ui->lineEdit_Index->text();
+    QByteArray bh = ind.toLatin1();
+    char *Ind=bh.data();
+    indx=atoi(Ind);
+    while(temp->next != NULL)
+    {
+        if(temp->index==indx)
+        {
+            flag=1;
+            break;
+        }
+        else
+            temp=temp->next;
+    }
+    if(flag==1)
+        ui->stackedWidget->setCurrentIndex(2);
+    else
+        ui->statusbar->showMessage("Please enter a valid index",3000);
 }
 
 void MainWindow::on_pushButton_Back_clicked()
 {
+    e=0;
+    ui->statusbar->showMessage("");
     ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::on_pushButton_Exit_4_clicked()
+{
+    e+=1;
+    ui->statusbar->showMessage("Press EXIT again to confirm");
+    if(e==2)
+    {
+        QFile file("C:/Users/Pro1501/Desktop/DS Course Project/Flight Ticket.txt");
+        if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+            QMessageBox::information(0,"Info",file.errorString());
+        QTextStream out(&file);
+        out << "";
+        file.close();
+        QFile file2("C:/Users/Pro1501/Desktop/DS Course Project/confirm.txt");
+        if(!file2.open(QIODevice::WriteOnly | QIODevice::Text))
+            QMessageBox::information(0,"Info",file2.errorString());
+        QTextStream out2(&file2);
+        out2 << "";
+        MainWindow::close();
+    }
+}
+
+void MainWindow::on_pushButton_Back_2_clicked()
+{
+    e=0;
+    ui->statusbar->showMessage("");
+    ui->stackedWidget->setCurrentIndex(1);
+}
+
+void MainWindow::on_pushButton_Confirm_2_clicked()
+{
+    e=0;
+    ui->statusbar->showMessage("");
+    if(c1==1)
+    {
+        ui->statusbar->showMessage("No. of tickets already confirmed. Use BACK to reset");
+        return;
+    }
+    QFile file("C:/Users/Pro1501/Desktop/DS Course Project/Flight Ticket.txt");
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+        QMessageBox::information(0,"Info",file.errorString());
+    QTextStream out(&file);
+    out << "";
+    file.close();
+    QFile file2("C:/Users/Pro1501/Desktop/DS Course Project/confirm.txt");
+    if(!file2.open(QIODevice::WriteOnly | QIODevice::Text))
+        QMessageBox::information(0,"Info",file2.errorString());
+    QTextStream out2(&file2);
+    out2 << "";
+    QString No = ui->lineEdit_NoT->text();
+    QByteArray bh = No.toLatin1();
+    char *no=bh.data();
+    ino=atoi(no);
+    if(ino<=0||No=="")
+    {
+        ui->statusbar->showMessage("Please enter a valid value");
+        return;
+    }
+    ui->statusbar->showMessage("Confirmed");
+    c1=1;
+}
+
+void MainWindow::on_pushButton_Confirm_clicked()
+{
+    e=0;
+    ui->statusbar->showMessage("");
+    QFile file1("C:/Users/Pro1501/Desktop/DS Course Project/Flight Ticket.txt");
+        if(!file1.open(QIODevice::Append | QIODevice::Text))
+            QMessageBox::information(0,"Info",file1.errorString());
+    QFile file3("C:/Users/Pro1501/Desktop/DS Course Project/confirm.txt");
+        if(!file3.open(QIODevice::ReadOnly | QIODevice::Text))
+            QMessageBox::information(0,"Info",file3.errorString());
+
+    QTextStream out(&file1);
+    QTextStream in(&file3);
+
+    QString text = in.readAll();
+    if(text=="")
+    {
+        ui->statusbar->showMessage("Use NEXT and confirm details",3000);
+        return;
+    }
+    i+=1;
+    out << text;
+    file1.close();
+    file3.close();
+
+    QFile file2("C:/Users/Pro1501/Desktop/DS Course Project/confirm.txt");
+    if(!file2.open(QIODevice::WriteOnly | QIODevice::Text))
+        QMessageBox::information(0,"Info",file2.errorString());
+
+    QTextStream out2(&file2);
+    out2 << "";
+    file2.close();
+
+    if (i==ino)
+    {
+        ui->stackedWidget->setCurrentIndex(3);
+        book(head);
+    }
+}
+
+void MainWindow::on_pushButton_Next_clicked()
+{
+    e=0;
+    ui->statusbar->showMessage("");
+    if(c1!=1)
+    {
+        ui->statusbar->showMessage("Please confirm number of tickets first");
+        return;
+    }
+    QFile file2("C:/Users/Pro1501/Desktop/DS Course Project/confirm.txt");
+    if(!file2.open(QIODevice::WriteOnly | QIODevice::Text))
+        QMessageBox::information(0,"Info",file2.errorString());
+    QTextStream out(&file2);
+    QString Name = ui->lineEdit_PName->text();
+    QString Age = ui->lineEdit_PAge->text();
+    QString Gender = ui->lineEdit_PGender->text();
+    QString Mn = ui->lineEdit_PMn->text();
+    if(Name == "" || Age == "" || Gender == "" || Mn == "")
+    {
+        ui->statusbar->showMessage("Please fill up all details",3000);
+        return;
+    }
+
+    out << "Passenger Details:-" << endl << "Name: " << Name << endl << "Age: " << Age << endl << "Gender: " << Gender << endl << "Mobile Number: " << Mn << endl << endl;
+    file2.flush();
+    QFile file3("C:/Users/Pro1501/Desktop/DS Course Project/confirm.txt");
+    if(!file3.open(QIODevice::ReadOnly | QIODevice::Text))
+        QMessageBox::information(0,"Info",file3.errorString());
+    QTextStream inf(&file3);
+    QString text = inf.readAll();
+    ui->plainTextEdit_ConDet->setPlainText(text);
+    file2.close();
+    file3.close();
+}
+
+void MainWindow::on_pushButton_Cancel_clicked()
+{
+    c+=1;
+    e=0;
+    ui->statusbar->showMessage("Press CANCEL again to confirm");
+    if(p==1)
+        ui->statusbar->showMessage("Unavailable after payment. Use EXIT to quit");
+    else if(c==2)
+    {
+        QFile file("C:/Users/Pro1501/Desktop/DS Course Project/Flight Ticket.txt");
+        if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+            QMessageBox::information(0,"Info",file.errorString());
+        QTextStream out(&file);
+        out << "";
+        file.close();
+        MainWindow::close();
+    }
+}
+
+void MainWindow::on_pushButton_Exit_5_clicked()
+{
+    c=0;
+    if(p==1)
+        MainWindow::close();
+    else
+    {
+        ui->statusbar->showMessage("Unavailable during payment. Use CANCEL to cancel booking process");
+        c=0;
+    }
+}
+
+void MainWindow::on_pushButton_OTP_clicked()
+{
+    c=0;
+    QString OTP = ui->lineEdit_OTP->text();
+    if (OTP == "1234")
+    {
+        p=1;
+        ui->plainTextEdit_status->setPlainText("Ticket Booked Successfully and saved as 'Flight Ticket.txt'. Have a safe journey!");
+        ui->statusbar->showMessage("Thank you. Press the EXIT button.");
+    }
+    else if (OTP != "1234" && j == 3)
+    {
+        p=1;
+        QFile file("C:/Users/Pro1501/Desktop/DS Course Project/Flight Ticket.txt");
+        if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+            QMessageBox::information(0,"Info",file.errorString());
+        QTextStream out(&file);
+        out << "";
+        file.close();
+        ui->plainTextEdit_status->setPlainText("Wrong OTP was entered, please try booking again.");
+        ui->statusbar->showMessage("Sorry. Press the EXIT button");
+    }
+    else if(j == 2)
+    {
+        ui->plainTextEdit_status->setPlainText("Wrong OTP! You have 1 more chance");
+        ui->statusbar->showMessage("Wrong OTP",3000);
+        j+=1;
+    }
+    else if(j == 1)
+    {
+        ui->plainTextEdit_status->setPlainText("Wrong OTP! You have 2 more chances");
+        ui->statusbar->showMessage("Wrong OTP",3000);
+        j+=1;
+    }
+
+}
+
+void MainWindow::on_pushButton_Decline_clicked()
+{
+    e=0;
+    ui->statusbar->showMessage("");
 }

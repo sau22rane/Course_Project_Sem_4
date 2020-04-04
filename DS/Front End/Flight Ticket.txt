@@ -1,0 +1,20 @@
+Passenger Details:-
+Name: 1
+Age: 1
+Gender: 1
+Mobile Number: 1
+
+Passenger Details:-
+Name: 2
+Age: 2
+Gender: 2
+Mobile Number: 2
+
+Flight Information:-
+Flight Number: 104
+Airline: FLYING
+From: MUMBAI
+To: GOA
+Date: 22/01/2020
+Departure Time: 12:30
+----------------------------------------------------------------------------------------------------------------------------------
