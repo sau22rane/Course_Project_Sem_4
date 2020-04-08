@@ -38,17 +38,17 @@ int main(int argc, char *argv[])
          server->h_length);
     serv_addr.sin_port = htons(port_no);
     if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) 
-        print("ERROR connecting");
+        printf("ERROR connecting");
     printf("Please enter the message: ");
     bzero(buffer,256);
     fgets(buffer,255,stdin);
     n = write(sockfd, buffer, strlen(buffer));
     if (n < 0) 
-         print("ERROR writing to socket");
+         printf("ERROR writing to socket");
     bzero(buffer,256);
     n = read(sockfd, buffer, 255);
     if (n < 0) 
-         print("ERROR reading from socket");
+         printf("ERROR reading from socket");
     printf("Message Recieved: %s\n", buffer);
     close(sockfd);
     return 0;
