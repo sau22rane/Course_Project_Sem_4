@@ -81,7 +81,7 @@ main(int argc, char *argv[]){
     FILE *fpread; 
     char dataToBeRead[55]; 
     
-  
+    int i =0;
     fpread = fopen("Images/city.jpg", "rb") ;
       
     if ( fpread == NULL ) 
@@ -96,6 +96,7 @@ main(int argc, char *argv[]){
         while( fread ( dataToBeRead, sizeof(dataToBeRead),1, fpread ) != NULL ) 
         { 
             printf( "%s\n" , dataToBeRead ) ; 
+            i++;
             send(newsockfd, dataToBeRead, sizeof(dataToBeRead), 0);
          } 
         

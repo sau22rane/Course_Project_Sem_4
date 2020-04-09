@@ -78,13 +78,15 @@ int main(int argc, char *argv[])
         { 
             printf( "GfgTest.c file failed to open." ) ; 
         } 
-        else
-
+        else{
+        int i=0;
         n = read(sockfd, dataToBeRead, sizeof(dataToBeRead));
         while(strcmp(dataToBeRead,"CLOSE")){
             printf( "%s" , dataToBeRead ) ; 
-            n = read(sockfd, dataToBeRead, sizeof(dataToBeRead));
+            i++;
             fwrite(dataToBeRead,1,sizeof(dataToBeRead),fpwrite);
+            n = read(sockfd, dataToBeRead, sizeof(dataToBeRead));
+        }
         }
 
     }
