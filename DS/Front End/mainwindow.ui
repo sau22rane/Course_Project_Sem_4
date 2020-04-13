@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QLabel" name="label_planepic">
@@ -38,9 +38,6 @@
       </property>
       <property name="text">
        <string/>
-      </property>
-      <property name="pixmap">
-       <pixmap>../../Desktop/DS Course Project/plane.bmp</pixmap>
       </property>
      </widget>
      <widget class="QGroupBox" name="Book_a_Flight">
@@ -122,7 +119,7 @@
         <cstring>lineEdit_Date</cstring>
        </property>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>280</x>
@@ -148,6 +145,26 @@
         </item>
        </layout>
       </widget>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>39</y>
+        <width>341</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>14</pointsize>
+        <underline>true</underline>
+       </font>
+      </property>
+      <property name="text">
+       <string>Welcome to Airline Reservation System</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="page_2">
@@ -187,16 +204,29 @@
        <string>Back</string>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>620</x>
+        <x>420</x>
         <y>490</y>
-        <width>191</width>
+        <width>391</width>
         <height>25</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Enter index:</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEdit_Index</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_Index"/>
+       </item>
        <item>
         <widget class="QPushButton" name="pushButton_Book_a_Flight">
          <property name="text">
@@ -214,7 +244,430 @@
       </layout>
      </widget>
     </widget>
-    <widget class="QWidget" name="page_5"/>
+    <widget class="QWidget" name="page_5">
+     <widget class="QGroupBox" name="Book_a_Flight_2">
+      <property name="geometry">
+       <rect>
+        <x>19</x>
+        <y>20</y>
+        <width>811</width>
+        <height>451</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Book a Flight</string>
+      </property>
+      <widget class="QLabel" name="label_NoT">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>40</y>
+         <width>81</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>No. of Tickets:</string>
+       </property>
+       <property name="buddy">
+        <cstring>lineEdit_NoT</cstring>
+       </property>
+      </widget>
+      <widget class="QGroupBox" name="Passenger_Details">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>90</y>
+         <width>371</width>
+         <height>341</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Pssenger Details</string>
+       </property>
+       <widget class="QLabel" name="label_PName">
+        <property name="geometry">
+         <rect>
+          <x>21</x>
+          <y>41</y>
+          <width>31</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Name:</string>
+        </property>
+        <property name="buddy">
+         <cstring>lineEdit_PName</cstring>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_PAge">
+        <property name="geometry">
+         <rect>
+          <x>21</x>
+          <y>100</y>
+          <width>23</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Age:</string>
+        </property>
+        <property name="buddy">
+         <cstring>lineEdit_PAge</cstring>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_PGender">
+        <property name="geometry">
+         <rect>
+          <x>21</x>
+          <y>160</y>
+          <width>39</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Gender:</string>
+        </property>
+        <property name="buddy">
+         <cstring>lineEdit_PGender</cstring>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_PMn">
+        <property name="geometry">
+         <rect>
+          <x>21</x>
+          <y>220</y>
+          <width>53</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Mobile no.:</string>
+        </property>
+        <property name="buddy">
+         <cstring>lineEdit_PMn</cstring>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_PName">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>41</y>
+          <width>271</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_PAge">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>100</y>
+          <width>271</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_PGender">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>160</y>
+          <width>271</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_PMn">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>220</y>
+          <width>271</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_Next">
+        <property name="geometry">
+         <rect>
+          <x>270</x>
+          <y>280</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Next</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_Reset">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>280</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Reset</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_NoT">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>40</y>
+         <width>113</width>
+         <height>20</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QGroupBox" name="Confirm_p_details">
+       <property name="geometry">
+        <rect>
+         <x>410</x>
+         <y>90</y>
+         <width>381</width>
+         <height>341</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Confirm Passenger Details</string>
+       </property>
+       <widget class="QPlainTextEdit" name="plainTextEdit_ConDet">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>30</y>
+          <width>341</width>
+          <height>231</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_Confirm">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>280</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Confirm</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_Decline">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>280</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Decline</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QPushButton" name="pushButton_Confirm_2">
+       <property name="geometry">
+        <rect>
+         <x>220</x>
+         <y>40</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Confirm</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="pushButton_Back_2">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>490</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Back</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_Exit_4">
+      <property name="geometry">
+       <rect>
+        <x>740</x>
+        <y>490</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exit</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_3">
+     <widget class="QGroupBox" name="Payment">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>30</y>
+        <width>811</width>
+        <height>451</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Payment</string>
+      </property>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>110</y>
+         <width>371</width>
+         <height>201</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Pay Here</string>
+       </property>
+       <widget class="QPushButton" name="pushButton_OTP">
+        <property name="geometry">
+         <rect>
+          <x>270</x>
+          <y>130</y>
+          <width>31</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>OK</string>
+        </property>
+       </widget>
+       <widget class="QPlainTextEdit" name="plainTextEdit_Total_Amount">
+        <property name="geometry">
+         <rect>
+          <x>160</x>
+          <y>40</y>
+          <width>104</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_OTP">
+        <property name="geometry">
+         <rect>
+          <x>160</x>
+          <y>130</y>
+          <width>101</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_Total_Amount">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>40</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Total Amount: </string>
+        </property>
+        <property name="buddy">
+         <cstring>plainTextEdit_Total_Amount</cstring>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_OTP">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>130</y>
+          <width>91</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Enter 4-digit OTP:</string>
+        </property>
+        <property name="buddy">
+         <cstring>lineEdit_OTP</cstring>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QGroupBox" name="groupBox_2">
+       <property name="geometry">
+        <rect>
+         <x>410</x>
+         <y>120</y>
+         <width>381</width>
+         <height>191</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Payment Status</string>
+       </property>
+       <widget class="QPlainTextEdit" name="plainTextEdit_status">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>361</width>
+          <height>161</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="pushButton_Exit_5">
+      <property name="geometry">
+       <rect>
+        <x>740</x>
+        <y>490</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Exit</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_Cancel">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>490</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Cancel</string>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -229,6 +682,246 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit_From_2</tabstop>
+  <tabstop>lineEdit_To_2</tabstop>
+  <tabstop>lineEdit_Date_2</tabstop>
+  <tabstop>pushButton_Search_Flights_2</tabstop>
+  <tabstop>pushButton_Exit</tabstop>
+  <tabstop>tableWidget</tabstop>
+  <tabstop>pushButton_Back</tabstop>
+  <tabstop>lineEdit_Index</tabstop>
+  <tabstop>pushButton_Book_a_Flight</tabstop>
+  <tabstop>pushButton_Exit_3</tabstop>
+  <tabstop>lineEdit_NoT</tabstop>
+  <tabstop>pushButton_Confirm_2</tabstop>
+  <tabstop>lineEdit_PName</tabstop>
+  <tabstop>lineEdit_PAge</tabstop>
+  <tabstop>lineEdit_PGender</tabstop>
+  <tabstop>lineEdit_PMn</tabstop>
+  <tabstop>pushButton_Reset</tabstop>
+  <tabstop>pushButton_Next</tabstop>
+  <tabstop>plainTextEdit_ConDet</tabstop>
+  <tabstop>pushButton_Decline</tabstop>
+  <tabstop>pushButton_Confirm</tabstop>
+  <tabstop>pushButton_Back_2</tabstop>
+  <tabstop>pushButton_Exit_4</tabstop>
+  <tabstop>plainTextEdit_Total_Amount</tabstop>
+  <tabstop>lineEdit_OTP</tabstop>
+  <tabstop>pushButton_OTP</tabstop>
+  <tabstop>pushButton_Cancel</tabstop>
+  <tabstop>pushButton_Exit_5</tabstop>
+  <tabstop>plainTextEdit_status</tabstop>
+ </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButton_Reset</sender>
+   <signal>clicked()</signal>
+   <receiver>lineEdit_PName</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>60</x>
+     <y>410</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>118</x>
+     <y>181</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_Reset</sender>
+   <signal>clicked()</signal>
+   <receiver>lineEdit_PAge</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>74</x>
+     <y>412</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>123</x>
+     <y>243</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_Reset</sender>
+   <signal>clicked()</signal>
+   <receiver>lineEdit_PGender</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>92</x>
+     <y>410</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>127</x>
+     <y>301</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_Reset</sender>
+   <signal>clicked()</signal>
+   <receiver>lineEdit_PMn</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>110</x>
+     <y>412</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>124</x>
+     <y>362</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_Confirm</sender>
+   <signal>clicked()</signal>
+   <receiver>plainTextEdit_ConDet</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>782</x>
+     <y>418</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>786</x>
+     <y>371</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_Confirm</sender>
+   <signal>clicked()</signal>
+   <receiver>lineEdit_PName</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>771</x>
+     <y>412</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>386</x>
+     <y>180</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_Confirm</sender>
+   <signal>clicked()</signal>
+   <receiver>lineEdit_PAge</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>760</x>
+     <y>410</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>375</x>
+     <y>242</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_Confirm</sender>
+   <signal>clicked()</signal>
+   <receiver>lineEdit_PGender</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>750</x>
+     <y>410</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>382</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_Confirm</sender>
+   <signal>clicked()</signal>
+   <receiver>lineEdit_PMn</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>734</x>
+     <y>414</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>386</x>
+     <y>362</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_Decline</sender>
+   <signal>clicked()</signal>
+   <receiver>plainTextEdit_ConDet</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>500</x>
+     <y>416</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>501</x>
+     <y>386</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_Back_2</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_Reset</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>54</x>
+     <y>510</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>95</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_Back_2</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_Decline</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>113</x>
+     <y>522</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>501</x>
+     <y>424</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_Back_2</sender>
+   <signal>clicked()</signal>
+   <receiver>lineEdit_NoT</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>43</x>
+     <y>511</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>130</x>
+     <y>98</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
