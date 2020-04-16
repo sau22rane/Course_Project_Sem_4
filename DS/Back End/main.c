@@ -2,6 +2,8 @@
 #include <malloc.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
+#include <math.h>
 
 typedef struct Node
 {
@@ -424,12 +426,12 @@ Node* deleteNode(Node* root, int flight_number)
 
 void write (Node *root)
 {
-    FILE *fp = fopen ("flight data.txt", "a");
-    
+    FILE *fp = fopen ("flight data.csv", "a");
+
     if(root != NULL) 
     { 
         write(root->left); 
-        fprintf (fp, "%d %s %s %s %s %s %d\n", root->flight_number, root->flight_name, root->from,root->dst, root->date, root->time, root->price);
+        fprintf (fp, "%d,%s,%s,%s,%s,%s,%d\n", root->flight_number, root->flight_name, root->from,root->dst, root->date, root->time, root->price);
         write(root->right); 
     }
 
@@ -446,8 +448,8 @@ int main()
 
     FILE *fp;
 
-    int flight_number, price;
-    int j =1;
+    int flight_number = 0, price;
+    int j =1, field_count;
 
     while(j>0)
     {
@@ -457,17 +459,53 @@ int main()
 
         switch (c)
         {
-            case 1: fp = fopen ("flight data.txt", "r+");
+            case 1: fp = fopen ("flight data.csv", "r+");
+                    char buffer[1024];
 
-                    while (!feof(fp))
+                    if(!fp)
+                    {
+                        printf("Can't open file\n");
+                    }
+
+                    while (fgets (buffer, 1024, fp))
+                    {
+                        field_count = 0;
+                        char *field = strtok (buffer, ",");
+
+                        while (field)
+                        {
+                            if (field_count == 0)
+                                flight_number = atoi(field);
+                            if (field_count == 1)
+                                strcpy (flight_name,field);
+                            if (field_count == 2)
+                                strcpy (from, field);
+                            if (field_count == 3)
+                                strcpy (to, field);
+                            if (field_count == 4)
+                                strcpy (date, field);
+                            if (field_count == 5)
+                                strcpy (time, field);
+                            if (field_count == 6)
+                                price = atoi(field); 
+
+                            field = strtok (NULL, ",");
+                            field_count++;
+                        }
+                        root = insert (root, flight_number, date, from, to, flight_name, time, price);
+                    }
+
+                    /* while (!feof(fp))
                     {
                     fscanf (fp, "%d %s %s %s %s %s %d", &flight_number, flight_name, from, to, date, time, &price);
                     root = insert (root, flight_number, date, from, to, flight_name, time, price);
-                    }
+                    } */
                     
                     printf ("\nFile Read and Flight data successfully added\n\n");
+
                     /* printf ("\npreorder : ");
                     preOrder (root); */
+
                     fclose (fp);
                     break;
 
@@ -502,7 +540,7 @@ int main()
                     break;
 
             case 5: { }
-                    FILE *fp = fopen ("flight data.txt", "w+");
+                    FILE *fp = fopen ("flight data.csv", "w+");
                     fclose (fp);
                     write (root);
 
