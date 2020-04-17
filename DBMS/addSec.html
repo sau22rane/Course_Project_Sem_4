@@ -60,7 +60,7 @@ input[type=text], input[type=password] {
     <div class="w3-call.m12 w3-container">
       <h1 class="w3-text-black">Security Registration</h1>
       <p class="w3-justify">Please fill up the form below:<br/><br/>
-  <form>
+  <form action="addsec.php" method="post">
     <div class="w3-container">
       <label for="gid"><b>Guard ID:</b></label></br>
       <input type="text" placeholder="Enter ID" name="gid" required></br>
@@ -69,8 +69,8 @@ input[type=text], input[type=password] {
       <label for="gcno"><b>Contact Number:</b></label></br>
       <input type="text" placeholder="Enter contact number" name="gcno" required></br>
       <label for="gdoj"><b>Date of Joining:</b></label></br>
-      <input type="text" placeholder="Enter date of joining" name="gdoj" required></br>
-      <a class="w3-button1" href="main.html" style="width:100px;">Submit</a>
+      <input type="date" placeholder="Enter date of joining" name="gdoj" required></br><br>
+      <button type="submit"> Submit </button>
     </div>
   </form>
  <footer id="myFooter">

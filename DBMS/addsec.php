@@ -1,11 +1,9 @@
 
-<?php
-	$name = $_POST['vname'];
-	$vno = $_POST['vvno'];
-	$cno = $_POST['vcno'];
-	$add = $_POST['vadd'];
-	$wing = $_POST['vwing'];
-	$flat = $_POST['vflat'];
+<?php 
+    $id = $_POST['gid'];
+	$name = $_POST['gname'];
+	$cno = $_POST['gcno'];
+	$doj = $_POST['gdoj'];
 
 	$servername = "localhost";
 	$username = "root";
@@ -20,7 +18,7 @@
 		die("Connection failed: " . mysqli_connect_error());
 	}
 		
-	$sql = "INSERT INTO visitor (name, contact_no, vehicle_no, address, wing, flat_no) VALUES ('$name', '$cno', '$vno', '$add', '$wing', '$flat');";
+	$sql = "INSERT INTO guard (guard_id, name, contact_no, doj) VALUES ('$id','$name' ,'$cno', '$doj');";
 
 	if (mysqli_query($conn, $sql)) 
 	{
