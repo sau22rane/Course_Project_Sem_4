@@ -1,13 +1,15 @@
 
 <?php 
-    $id = $_POST['gid'];
-	$name = $_POST['gname'];
-	$cno = $_POST['gcno'];
-	$doj = $_POST['gdoj'];
-	$un = $_POST['grun'];
-	$psw = $_POST['gpsw'];
-	$cpsw = $_POST["gcpsw"];
-	$login_type =1;
+    $flat = $_POST['rfno'];
+	$wing = $_POST['rw'];
+	$name = $_POST['rname'];
+    $cno = $_POST['rcno'];
+    $acno = $_POST['racno'];
+    $nm = $_POST['rnm'];
+	$un = $_POST['gun'];
+	$psw = $_POST['rpsw'];
+	$cpsw = $_POST["rcpsw"];
+	$login_type =0;
 
 	$servername = "localhost";
 	$username = "root";
@@ -24,7 +26,7 @@
 			die("Connection failed: " . mysqli_connect_error());
 		}
 			
-		$sql1 = "INSERT INTO guard (guard_id, name, contact_no, doj) VALUES ('$id','$name' ,'$cno', '$doj');";
+		$sql1 = "INSERT INTO resident (flat_no, wing, name, contact_no, members, alternate_contact, username) VALUES ('$flat','$wing' ,'$name', '$cno', '$nm', '$acno', '$un');";
 		$sql2 = "INSERT INTO login (username, password, login_type) VALUES ('$un','$cpsw' ,'$login_type');";
 
 		if (mysqli_query($conn, $sql1)) 
@@ -34,7 +36,7 @@
 			if (mysqli_query($conn, $sql2)) 
 			{
 				echo "New record created successfully";
-				header ("Location: addSec.html?entry=success");
+				header ("Location: addRes.html?entry=success");
 			} 
 		} 
 		else 
@@ -48,6 +50,6 @@
 		echo '<script type="text/javascript">';
 		echo ' alert("password does not match")';  //not showing an alert box.
 		echo '</script>';
-		header ("Location: addSec.html?entry=fail");
+		header ("Location: addRes.html?entry=fail");
 	}
 ?>
