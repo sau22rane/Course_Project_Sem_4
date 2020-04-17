@@ -18,6 +18,10 @@ main(int argc, char *argv[]){
         printf("ERROR, no port provided\n");
         exit(1);
     }
+    
+
+
+
     sockfd =  socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) 
         printf("ERROR opening socket");
@@ -38,7 +42,7 @@ main(int argc, char *argv[]){
         /* AF_INET      		IPv4 Internet protocols  */
     serv_addr.sin_family = AF_INET;
         /* Automatically fill the host's IP(Current PC) */
-    serv_addr.sin_addr.s_addr = INADDR_ANY;
+    serv_addr.sin_addr.s_addr = inet_addr("192.168.43.196");
         /* short integer value for port must be converted into network byte order */
     serv_addr.sin_port = htons(port_no);
         /* Bind returns 0 for success and -1 for error */ 
