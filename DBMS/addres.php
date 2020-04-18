@@ -6,7 +6,7 @@
     $cno = $_POST['rcno'];
     $acno = $_POST['racno'];
     $nm = $_POST['rnm'];
-	$un = $_POST['gun'];
+	$un = $_POST['run'];
 	$psw = $_POST['rpsw'];
 	$cpsw = $_POST["rcpsw"];
 	$login_type =0;
