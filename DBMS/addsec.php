@@ -17,37 +17,38 @@
 	$conn = new mysqli($servername,$username, "", $dbname);
 
 	// Check connection
-	if ($psw == $cpsw)
+	if(isset($_POST["addsec-submit"]))
 	{
-		if (!$conn) 
+		if ($psw == $cpsw)
 		{
-			die("Connection failed: " . mysqli_connect_error());
-		}
-			
-		$sql1 = "INSERT INTO guard (guard_id, name, contact_no, doj) VALUES ('$id','$name' ,'$cno', '$doj');";
-		$sql2 = "INSERT INTO login (username, password, login_type) VALUES ('$un','$cpsw' ,'$login_type');";
-
-		if (mysqli_query($conn, $sql1)) 
-		{
-			echo "New record created successfully";
-			header ("Location: security.html?entry=success");
-			if (mysqli_query($conn, $sql2)) 
+			if (!$conn) 
 			{
-				echo "New record created successfully";
-				header ("Location: addSec.html?entry=success");
-			} 
-		} 
-		else 
-		{
-			echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-		}
-	}
+				die("Connection failed: " . mysqli_connect_error());
+			}
+				
+			$sql1 = "INSERT INTO guard (guard_id, name, contact_no, doj) VALUES ('$id','$name' ,'$cno', '$doj');";
+			$sql2 = "INSERT INTO login (username, password, login_type) VALUES ('$un','$cpsw' ,'$login_type');";
 
-	else
-	{
-		echo '<script type="text/javascript">';
-		echo ' alert("password does not match")';  //not showing an alert box.
-		echo '</script>';
-		header ("Location: addSec.html?entry=fail");
+			if (mysqli_query($conn, $sql1)) 
+			{
+				if (mysqli_query($conn, $sql2)) 
+				{
+					echo "New record created successfully";
+					header ("Location: addSec.html?entry=success");
+				} 
+			} 
+			else 
+			{
+				echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+			}
+		}
+
+		else
+		{
+			echo '<script type="text/javascript">';
+			echo ' alert("password does not match")';  //not showing an alert box.
+			echo '</script>';
+			header ("Location: addSec.html?entry=fail");
+		}
 	}
 ?>
