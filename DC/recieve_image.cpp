@@ -17,12 +17,16 @@ int main(int argc, char *argv[])
     struct sockaddr_in serv_addr;
     struct hostent *server;
 
-    char buffer[256];
+    char buffer[256], ip_address[20];
     if (argc < 3) {
        printf("usage %s hostname port\n");
        exit(0);
     }
     port_no = atoi(argv[2]);
+
+
+
+
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) 
         printf("ERROR opening socket");
@@ -67,27 +71,26 @@ int main(int argc, char *argv[])
 
     FILE *fpwrite ; 
     char dataToBeRead[55];
-
+    
     if(strcmp(buffer,"OK")==0){
         //Read image 
-        
+        printf("Reading data\n");
     
         fpwrite = fopen("Images/trial.jpg", "wb") ; 
         
         if ( fpwrite == NULL ) 
         { 
-            printf( "GfgTest.c file failed to open." ) ; 
+            printf( "File failed to open." ) ; 
         } 
         else{
         int i=0;
         n = read(sockfd, dataToBeRead, sizeof(dataToBeRead));
         while(strcmp(dataToBeRead,"CLOSE")){
-            printf( "%s" , dataToBeRead ) ; 
-            i++;
             fwrite(dataToBeRead,1,sizeof(dataToBeRead),fpwrite);
             n = read(sockfd, dataToBeRead, sizeof(dataToBeRead));
         }
         }
+        printf("\nClosing Socket\n");
 
     }
 

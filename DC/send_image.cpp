@@ -8,16 +8,23 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-main(int argc, char *argv[]){
+int main(){
     int sockfd, newsockfd, port_no, n;
     socklen_t clilen;
     char buffer[256];
     int opt = 1;
+    char ip_address[20];
     struct sockaddr_in serv_addr, cli_addr;
-    if (argc < 2) {
+    /* if (argc < 2) {
         printf("ERROR, no port provided\n");
         exit(1);
-    }
+    } */
+
+    printf("Enter the IP address of this PC: ");
+    scanf("%s",ip_address);
+    printf("Enter the port number: ");
+    scanf("%d",&port_no);
+
     sockfd =  socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) 
         printf("ERROR opening socket");
@@ -34,11 +41,11 @@ main(int argc, char *argv[]){
     bzero((char *) &serv_addr, sizeof(serv_addr));
         /* The C library function int atoi(const char *str) converts the string 
         argument str to an integer (type int). */
-    port_no = atoi(argv[1]);
+    //port_no = atoi(argv[1]);
         /* AF_INET      		IPv4 Internet protocols  */
     serv_addr.sin_family = AF_INET;
         /* Automatically fill the host's IP(Current PC) */
-    serv_addr.sin_addr.s_addr = INADDR_ANY;
+    serv_addr.sin_addr.s_addr = inet_addr(ip_address);
         /* short integer value for port must be converted into network byte order */
     serv_addr.sin_port = htons(port_no);
         /* Bind returns 0 for success and -1 for error */ 
@@ -94,8 +101,7 @@ main(int argc, char *argv[]){
         printf("The file is now opened.\n") ; 
           
         while( fread ( dataToBeRead, sizeof(dataToBeRead),1, fpread ) != NULL ) 
-        { 
-            printf( "%s\n" , dataToBeRead ) ; 
+        {  
             i++;
             send(newsockfd, dataToBeRead, sizeof(dataToBeRead), 0);
          } 
@@ -106,7 +112,7 @@ main(int argc, char *argv[]){
         } */
           
         fclose(fpread) ; 
-        printf("Data successfully read from file GfgTest.c\n"); 
+        printf("Data successfully sent\n"); 
         printf("The file is now closed.") ; 
     }
 
