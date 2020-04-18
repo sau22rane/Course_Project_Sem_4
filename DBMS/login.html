@@ -50,7 +50,8 @@ input[type=text], input[type=password] {
 <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
 <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
-<form>
+<form action="login.php" method = "post">
+    
     <div class="w3-main w3-row w3-padding-64 w3-display-topmiddle" style="margin-left:150px">
     <div class="w3-container">
       <h1 class="w3-text-black">Login</h1></br>
@@ -59,8 +60,7 @@ input[type=text], input[type=password] {
 
     <label for="psw"><b>Password</b></label></br>
     <input type="password" placeholder="Enter Password" name="psw" required></br></br>
-        
-    <a class="w3-button1" href="main.html" style="width:315px;">Login</a></br></br>
+    <button type="submit" name ="login-submit"> Submit </button>
     <label>
     <input type="checkbox" checked="checked" name="remember"> Remember me
     </label></br></br>
