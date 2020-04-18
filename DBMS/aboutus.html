@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>HSMS Login</title>
+<title>Welcome to Housing Society Management System</title>
 <link rel = "icon" type = "image/png" href = "pics/logo.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,21 +9,13 @@
 <link rel="stylesheet" href="css/font.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-html,body,h1,h4 {font-family: Roboto, sans-serif;}
+html,body,h1,h4 {font-family: "Roboto", sans-serif;}
 .w3-sidebar {
   z-index: 3;
   width: 250px;
   top: 43px;
   bottom: 0;
   height: inherit;
-}
-input[type=text], input[type=password] {
-  width: 300px;
-  padding: 12px 20px;
-  margin: 8px ;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
 }
 </style>
 <body>
@@ -52,33 +44,24 @@ input[type=text], input[type=password] {
 <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
 <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
-<form action="login.php" method = "post">
-    
-    <div class="w3-main w3-row w3-padding-64 w3-display-topmiddle" style="margin-left:150px">
-    <div class="w3-container">
-      <h1 class="w3-text-black">Login</h1></br>
-      <label for="uname"><b>Username</b></label></br>
-      <input type="text" placeholder="Enter Username" name="uname" required></br>
 
-    <label for="psw"><b>Password</b></label></br>
-    <input type="password" placeholder="Enter Password" name="psw" required></br></br>
-    <button type="submit" name ="login-submit"> Submit </button>
-    <label>
-    <input type="checkbox" checked="checked" name="remember"> Remember me
-    </label></br></br>
-  </div>
+<div class="w3-main" style="margin-left:250px">
 
-</form>
-<!-- END MAIN -->
-</div>
+  <div class="w3-row w3-padding-64">
+    <div class="w3-call.m12 w3-container">
+      <img src="pics/ss.jpg" style="width:1320px;height:450px;">
+      <h1 class="w3-text-black">About Us</h1>
+      <p class="w3-justify">This society is founded by Group 15 Pvt. Ltd. in February 2020.
+</p>
 
   <footer id="myFooter">
-    <div class="w3-container w3-bottom w3-theme-l1" style="margin-left:250px">
+    <div class="w3-container w3-bottom w3-theme-l1">
       <p>Powered by Roll Nos. 72,73,76,79 of SY CS-B</a></p>
     </div>
   </footer>
 
-
+<!-- END MAIN -->
+</div>
 
 <script>
 // Get the Sidebar
