@@ -8,7 +8,8 @@ $dbname = "hsm";
 
 $conn = mysqli_connect($servername,$dbUsername,$dbPassword,$dbname);
 
-if(!$conn){
+if(!$conn)
+{
     die("Connection Failed :".mysqli_connect_error()); 
 }
 
@@ -49,7 +50,8 @@ if(isset($_POST["login-submit"]))
                 
                 if($row['login_type']==0)
                 {
-                    header("Location: resident.html?login=success");
+                    header("Location: resident.php?login=success");
+                    
                 }
 
                 else if($row['login_type']==1)
