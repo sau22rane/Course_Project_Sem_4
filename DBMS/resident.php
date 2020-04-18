@@ -79,6 +79,7 @@ input[type=text], input[type=password] {
   <input class="w3-bar-item w3-button w3-hover-black" type = "submit" method = "post" name = "resident" value = "Resident Info"></a>
   <a class="w3-bar-item w3-button w3-hover-black" type = "submit" method = "post" name = "guest_history">View guest history</a>
   <a class="w3-bar-item w3-button w3-hover-black" type = "submit" method = "post" name = "logout">Logout</a>
+ 
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
