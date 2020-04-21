@@ -14,14 +14,14 @@ html,body,h1,h4 {font-family: "Roboto", sans-serif;}
   z-index: 3;
   width: 250px;
   top: 43px;
-  bottom: 0;
+  bottom: 0; 
   height: inherit;
 }
 /* Full-width input fields */
 input[type=text], input[type=password] {
   width: 100%;
   padding: 15px;
-  margin: 5px 0 22px 0;
+  margin: 5px 0 22px 0; 
   display: inline-block;
   border: none;
   background: #f1f1f1;
@@ -45,7 +45,7 @@ input[type=text], input[type=password] {
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
-  <a class="w3-bar-item w3-button w3-hover-black" href="admin.html">New registration</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="admin.php">New Registration</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="logout.php">Logout</a>
 </nav>
 
@@ -58,19 +58,33 @@ input[type=text], input[type=password] {
 
   <div class="w3-row w3-padding-64">
     <div class="w3-call.m12 w3-container">
-      <h1 class="w3-text-black w3-center">Welcome Admin</h1>
-      <p class="w3-center">Register new member below<br/>
-    <div class="w3-container w3-center">
-	<a class="w3-button2" href="addSec.html" style="margin-right:10px; width:100px;">Security</a>
-	<a class="w3-button2" href="addRes.html" style="width:100px;">Resident</a></br>
+      <h1 class="w3-text-black">Security Registration</h1>
+      <p class="w3-justify">Please fill up the form below:<br/><br/>
+  <form action="addSec.php" method="post">
+    <div class="w3-container">
+      <label for="gid"><b>Guard ID:</b></label></br>
+      <input type="number" placeholder="Enter ID" name="gid" required></br><br>
+      <label for="gname"><b>Name:</b></label></br>
+      <input type="text" placeholder="Enter full name" name="gname" required></br>
+      <label for="gcno"><b>Contact Number:</b></label></br>
+      <input type="number" placeholder="Enter contact number" name="gcno" required></br> <br>
+      <label for="gdoj"><b>Date of Joining:</b></label></br>
+      <input type="date" placeholder="Enter date of joining" name="gdoj" required></br><br>
+      <label for="gun"><b>Username:</b></label></br>
+      <input type="text" placeholder="Enter username" name="grun" required></br>
+      <label for="gpsw"><b>Password:</b></label></br>
+      <input type="password" placeholder="Enter Password" name="gpsw" required></br>
+      <label for="gcpsw"><b>Confirm Password:</b></label></br>
+      <input type="password" placeholder="Confirm Password" name="gcpsw" required></br>
+      <button type="submit" name = "submit"> Submit </button>
     </div>
+  </form>
  <footer id="myFooter">
     <div class="w3-container w3-bottom w3-theme-l1">
       <p>Powered by Roll Nos. 72,73,76,79 of SY CS-B</a></p>
     </div>
  </footer>
 
-</div>
 <!-- END MAIN -->
 </div>
 
@@ -97,8 +111,72 @@ function w3_close() {
   mySidebar.style.display = "none";
   overlayBg.style.display = "none";
 }
-
 </script>
+
+
+<?php   
+    if (isset($_POST["submit"]))
+    {
+		$servername = "localhost";
+		$username = "root";
+		$dbname = "hsm";
+		
+		// Database connection
+		$conn = new mysqli($servername,$username, "", $dbname);
+
+		$id = $_POST['gid'];
+		$name = $_POST['gname'];
+		$cno = $_POST['gcno'];
+		$doj = $_POST['gdoj'];
+		$un = $_POST['grun'];
+		$psw = $_POST['gpsw'];
+		$cpsw = $_POST["gcpsw"];
+		$login_type =1;
+
+		if ($psw == $cpsw)
+		{
+			if (!$conn) 
+			{
+				die("Connection failed: " . mysqli_connect_error());
+			}
+
+			$sql1 = "INSERT INTO guard (guard_id, name, contact_no, doj) VALUES ('$id','$name' ,'$cno', '$doj');";
+			$sql2 = "INSERT INTO login (username, password, login_type) VALUES ('$un','$cpsw' ,'$login_type');";
+			
+			if (mysqli_query($conn, $sql1)) 
+			{
+				if (mysqli_query($conn, $sql2)) 
+				{
+					echo '<script type="text/javascript">';
+					echo ' alert("Successfully Added to the Database")';  
+					echo '</script>';
+				} 
+
+				else 
+				{
+					echo '<script type="text/javascript">';
+					echo ' alert("Could not add to the Database")';   
+					echo '</script>';
+				}
+			} 
+			else 
+			{
+				echo '<script type="text/javascript">';
+				echo ' alert("Could not add to the Database")';   
+				echo '</script>';
+			}
+		}
+
+		else
+		{
+			echo '<script type="text/javascript">';
+			echo ' alert("password does not match")';   
+			echo '</script>';
+			header ("Location: addSec.html?entry=fail");
+		}
+	}	
+?>
 
 </body>
 </html>
+

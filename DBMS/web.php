@@ -24,8 +24,8 @@ html,body,h1,h4 {font-family: "Roboto", sans-serif;}
 <div class="w3-top">
   <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
     <a class="w3-bar-item w3-button w3-left w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-    <a class="w3-bar-item w3-button" href="web.html"> <img src="pics/logo.png" style="width:25px;height:25px;"> HSMS</a>
-    <a class="w3-bar-item w3-button1 w3-right" href="login.html"> Login</a>
+    <a class="w3-bar-item w3-button" href="web.php"> <img src="pics/logo.png" style="width:25px;height:25px;"> HSMS</a>
+    <a class="w3-bar-item w3-button1 w3-right" href="login.php"> Login</a>
   </div>
 </div>
 
@@ -35,9 +35,9 @@ html,body,h1,h4 {font-family: "Roboto", sans-serif;}
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
-  <a class="w3-bar-item w3-button w3-hover-black" href="login.html">Login</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="rules.html">Rules</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="aboutus.html">About Us</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="login.php">Login</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="rules.php">Rules</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="aboutus.php">About Us</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -50,9 +50,8 @@ html,body,h1,h4 {font-family: "Roboto", sans-serif;}
   <div class="w3-row w3-padding-64">
     <div class="w3-call.m12 w3-container">
       <img src="pics/ss.jpg" style="width:1320px;height:450px;">
-      <h1 class="w3-text-black">About Us</h1>
-      <p class="w3-justify">This society is founded by Group 15 Pvt. Ltd. in February 2020.
-</p>
+      <h1 class="w3-text-black">Welcome to "Housing Society Name" Residents Forum</h1>
+      <p class="w3-justify">Welcome to "Housing Society Name" Cooperative Housing Society Ltd.<br/></p>
 
   <footer id="myFooter">
     <div class="w3-container w3-bottom w3-theme-l1">

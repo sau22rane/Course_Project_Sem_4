@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>HSMS Login</title>
+<title>Welcome to Housing Society Management System</title>
 <link rel = "icon" type = "image/png" href = "pics/logo.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="css/font.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-html,body,h1,h4 {font-family: Roboto, sans-serif;}
+html,body,h1,h4 {font-family: "Roboto", sans-serif;}
 .w3-sidebar {
   z-index: 3;
   width: 250px;
@@ -17,23 +17,25 @@ html,body,h1,h4 {font-family: Roboto, sans-serif;}
   bottom: 0;
   height: inherit;
 }
+/* Full-width input fields */
 input[type=text], input[type=password] {
-  width: 300px;
-  padding: 12px 20px;
-  margin: 8px ;
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
   display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
+  border: none;
+  background: #f1f1f1;
 }
 </style>
 <body>
+
 
 <!-- Navbar -->
 <div class="w3-top">
   <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
     <a class="w3-bar-item w3-button w3-left w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-    <a class="w3-bar-item w3-button" href="web.html"> <img src="pics/logo.png" style="width:25px;height:25px;"> HSMS</a>
-    <a class="w3-bar-item w3-button1 w3-right" href="login.html"> Login</a>
+    <a class="w3-bar-item"> <img src="pics/logo.png" style="width:25px;height:25px;"> HSMS</a>
+    <a class="w3-bar-item w3-button1 w3-right" href="logout.php"> Logout</a>
   </div>
 </div>
 
@@ -43,42 +45,34 @@ input[type=text], input[type=password] {
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
-  <a class="w3-bar-item w3-button w3-hover-black" href="login.html">Login</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="rules.html">Rules</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="aboutus.html">About Us</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="admin.php">New registration</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="logout.php">Logout</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
 <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
 <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
-<form action="login.php" method = "post">
-    
-    <div class="w3-main w3-row w3-padding-64 w3-display-topmiddle" style="margin-left:150px">
-    <div class="w3-container">
-      <h1 class="w3-text-black">Login</h1></br>
-      <label for="uname"><b>Username</b></label></br>
-      <input type="text" placeholder="Enter Username" name="uname" required></br>
 
-    <label for="psw"><b>Password</b></label></br>
-    <input type="password" placeholder="Enter Password" name="psw" required></br></br>
-    <button type="submit" name ="login-submit"> Submit </button>
-    <label>
-    <input type="checkbox" checked="checked" name="remember"> Remember me
-    </label></br></br>
-  </div>
+<div class="w3-main" style="margin-left:250px">
 
-</form>
-<!-- END MAIN -->
-</div>
-
-  <footer id="myFooter">
-    <div class="w3-container w3-bottom w3-theme-l1" style="margin-left:250px">
+  <div class="w3-row w3-padding-64">
+    <div class="w3-call.m12 w3-container">
+      <h1 class="w3-text-black w3-center">Welcome Admin</h1>
+      <p class="w3-center">Register new member below<br/>
+    <div class="w3-container w3-center">
+	<a class="w3-button2" href="addSec.php" style="margin-right:10px; width:100px;">Security</a>
+	<a class="w3-button2" href="addRes.php" style="width:100px;">Resident</a></br>
+    </div>
+ <footer id="myFooter">
+    <div class="w3-container w3-bottom w3-theme-l1">
       <p>Powered by Roll Nos. 72,73,76,79 of SY CS-B</a></p>
     </div>
-  </footer>
+ </footer>
 
-
+</div>
+<!-- END MAIN -->
+</div>
 
 <script>
 // Get the Sidebar
@@ -103,6 +97,7 @@ function w3_close() {
   mySidebar.style.display = "none";
   overlayBg.style.display = "none";
 }
+
 </script>
 
 </body>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>Hello Visitor!</title>
+<title>Welcome to Housing Society Management System</title>
 <link rel = "icon" type = "image/png" href = "pics/logo.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,25 +17,15 @@ html,body,h1,h4 {font-family: "Roboto", sans-serif;}
   bottom: 0;
   height: inherit;
 }
-/* Full-width input fields */
-input[type=text], input[type=password] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  display: inline-block;
-  border: none;
-  background: #f1f1f1;
-}
 </style>
 <body>
-
 
 <!-- Navbar -->
 <div class="w3-top">
   <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
     <a class="w3-bar-item w3-button w3-left w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-    <a class="w3-bar-item"> <img src="pics/logo.png" style="width:25px;height:25px;"> HSMS</a>
-    <a class="w3-bar-item w3-button1 w3-right" href="logout.php"> Logout</a>
+    <a class="w3-bar-item w3-button" href="web.php"> <img src="pics/logo.png" style="width:25px;height:25px;"> HSMS</a>
+    <a class="w3-bar-item w3-button1 w3-right" href="login.php"> Login</a>
   </div>
 </div>
 
@@ -45,8 +35,9 @@ input[type=text], input[type=password] {
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
-  <a class="w3-bar-item w3-button w3-hover-black" href="security.html">Visitor Form</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="logout.php">Logout</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="login.php">Login</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="rules.php">Rules</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="aboutus.php">About Us</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -58,32 +49,16 @@ input[type=text], input[type=password] {
 
   <div class="w3-row w3-padding-64">
     <div class="w3-call.m12 w3-container">
-      <h1 class="w3-text-black">Hello Visitor!</h1>
-      <p class="w3-justify">Welcome to "Housing Society Name" Cooperative Housing Society Ltd.<br/><br/>
+      <img src="pics/ss.jpg" style="width:1320px;height:450px;">
+      <h1 class="w3-text-black">About Us</h1>
+      <p class="w3-justify">This society is founded by Group 15 Pvt. Ltd. in February 2020.
+</p>
 
-Please fill up the form below:<br/><br/>
-  <form action="security.php" method="post">
-    <div class= "w3-container">
-      <label for="vname"><b>Name:</b></label></br>
-      <input type="text" placeholder="Enter your full name" name="vname" required></br>
-      <label for="vvno"><b>Vehicle Number:</b></label></br>
-      <input type="text" placeholder="Enter your vehicle number ('NA' if no vehicle)" name="vvno" required></br>
-      <label for="vcno"><b>Contact Number:</b></label></br>
-      <input type="text" placeholder="Enter your contact number" name="vcno" required></br>
-      <label for="vadd"><b>Address:</b></label></br>
-      <input type="text" placeholder="Enter your address" name="vadd" required></br>
-      <label for="vwing"><b>Visiting Wing:</b></label></br>
-      <input type="text" placeholder="Enter the wing which you are visiting" name="vwing" required></br>
-      <label for="vflat"><b>Visiting Flat:</b></label></br>
-      <input type="text" placeholder="Enter the flat number which you are visiting" name="vflat" required></br></br>
-      <button type="submit"> Submit </button>
-    </div>
-  </form>
- <footer id="myFooter">
+  <footer id="myFooter">
     <div class="w3-container w3-bottom w3-theme-l1">
       <p>Powered by Roll Nos. 72,73,76,79 of SY CS-B</a></p>
     </div>
- </footer>
+  </footer>
 
 <!-- END MAIN -->
 </div>
@@ -115,4 +90,3 @@ function w3_close() {
 
 </body>
 </html>
-
