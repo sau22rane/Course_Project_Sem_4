@@ -45,7 +45,7 @@ input[type=text], input[type=password] {
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
-  <a class="w3-bar-item w3-button w3-hover-black" href="security.html">Visitor Form</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="security.php">Visitor Form</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="logout.php">Logout</a>
 </nav>
 
@@ -69,14 +69,14 @@ Please fill up the form below:<br/><br/>
       <label for="vvno"><b>Vehicle Number:</b></label></br>
       <input type="text" placeholder="Enter your vehicle number ('NA' if no vehicle)" name="vvno" required></br>
       <label for="vcno"><b>Contact Number:</b></label></br>
-      <input type="text" placeholder="Enter your contact number" name="vcno" required></br>
+      <input type="number" placeholder="Enter your contact number" name="vcno" required></br><br>
       <label for="vadd"><b>Address:</b></label></br>
       <input type="text" placeholder="Enter your address" name="vadd" required></br>
       <label for="vwing"><b>Visiting Wing:</b></label></br>
       <input type="text" placeholder="Enter the wing which you are visiting" name="vwing" required></br>
       <label for="vflat"><b>Visiting Flat:</b></label></br>
-      <input type="text" placeholder="Enter the flat number which you are visiting" name="vflat" required></br></br>
-      <button type="submit"> Submit </button>
+      <input type="number" placeholder="Enter the flat number which you are visiting" name="vflat" required></br></br>
+      <button type="submit" name = "submit"> Submit </button>
     </div>
   </form>
  <footer id="myFooter">
@@ -115,38 +115,54 @@ function w3_close() {
 
 
 <?php
-	$name = $_POST['vname'];
-	$vno = $_POST['vvno'];
-	$cno = $_POST['vcno'];
-	$add = $_POST['vadd'];
-	$wing = $_POST['vwing'];
-	$flat = $_POST['vflat'];
+	if (isset($_POST["submit"]))
+	{	
+		$name = $_POST['vname'];
+		$vno = $_POST['vvno'];
+		$cno = $_POST['vcno'];
+		$add = $_POST['vadd'];
+		$wing = $_POST['vwing'];
+		$flat = $_POST['vflat'];
 
-	$servername = "localhost";
-	$username = "root";
-	$dbname = "hsm";
-	
-	// Database connection
-	$conn = new mysqli($servername,$username, "", $dbname);
-
-	// Check connection
-	if (!$conn) 
-	{
-		die("Connection failed: " . mysqli_connect_error());
-	}
+		$servername = "localhost";
+		$username = "root";
+		$dbname = "hsm";
 		
-	$sql = "INSERT INTO visitor (name, contact_no, vehicle_no, address, wing, flat_no) VALUES ('$name', '$cno', '$vno', '$add', '$wing', '$flat');";
+		// Database connection
+		$conn = new mysqli($servername,$username, "", $dbname);
+		
+		$check = "SELECT * FROM resident where wing = '$wing' and flat_no = $flat;";
+		$result = mysqli_query($conn, $check);
 
-	if (mysqli_query($conn, $sql)) 
-	{
-		echo "New record created successfully";
-		header ("Location: security.html?entry=success");
-	} 
-	else 
-	{
-		echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+		if (mysqli_num_rows($result) > 0)
+		{
+			if (!$conn) 
+			{
+				die("Connection failed: " . mysqli_connect_error());
+			}
+				
+			$sql = "INSERT INTO visitor (name, contact_no, vehicle_no, address, wing, flat_no) VALUES ('$name', '$cno', '$vno', '$add', '$wing', '$flat');";
+
+			if (mysqli_query($conn, $sql)) 
+			{
+				echo ("Successfully Added");	
+			} 
+			
+			else 
+			{
+				echo '<script type="text/javascript">';
+				echo ' alert("Could not add to the Database")';   
+				echo '</script>';
+			}	
+		}
+
+		else
+		{
+			echo '<script type="text/javascript">';
+			echo ' alert("Please enter a valid flat number")';   
+			echo '</script>';
+		}	
 	}
-
 ?>
 
 </body>

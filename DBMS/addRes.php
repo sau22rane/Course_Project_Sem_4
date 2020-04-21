@@ -168,7 +168,8 @@ function w3_close() {
 					echo ' alert("Could not add to the Database")';   
 					echo '</script>';
 				}
-			} 
+      } 
+      
 			else 
 			{
 				echo '<script type="text/javascript">';
