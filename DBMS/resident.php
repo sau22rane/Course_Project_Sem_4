@@ -111,6 +111,10 @@ input[type=text], input[type=password] {
 ?>
       <!-- Show all members of flat here -->
     </div>
+    <div class="w3-container">
+	<a class="w3-button2" href="editResDet.html" style="margin-right:10px; width:150px;">Edit Details</a>
+	<a class="w3-button2" href="changePass.html" style="width:150px;">Change Password</a></br>
+    </div>  
  <footer id="myFooter">
     <div class="w3-container w3-bottom w3-theme-l1">
       <p>Powered by Roll Nos. 72,73,76,79 of SY CS-B</a></p>
