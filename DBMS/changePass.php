@@ -1,11 +1,7 @@
 <!DOCTYPE html>
-
 <?php
-
    session_start();
-
 ?>
-
 <html lang="en">
 <title>Welcome to Housing Society Management System</title>
 <link rel = "icon" type = "image/png" href = "pics/logo.png">
@@ -35,22 +31,6 @@ input[type=text], input[type=password] {
 }
 </style>
 <body>
-<!-- PHP and Sql Connection -->
-<?php
-  include_once 'includes/connection.php';
-  $sql = 'SELECT * FROM resident where username like(\''.$_SESSION['userId'].'\');';
-        $result = mysqli_query($conn, $sql);
-        $result_check = mysqli_num_rows($result);
-        if($result_check>0){
-            $row = mysqli_fetch_assoc($result);
-            $name = $row['name'];
-            $wing = $row['wing'];
-            $flat_no =  $row['flat_no'];
-            $contact_no = $row['contact_no'];
-            $alternate_contact = $row['alternate_contact'];
-            $members = $row['members'];            
-        }
-?>
 
 
 <!-- Navbar -->
@@ -68,39 +48,31 @@ input[type=text], input[type=password] {
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
-  <a class="w3-bar-item w3-button w3-hover-black" href = "resident.php" >Resident Info</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href = "rguests.php">View guest history</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href = "">Logout</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="resident.php">Residents Info</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="rguests.php">View guest history</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="login.php">Logout</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
 <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
 <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
-
+<form method = "post">
 <div class="w3-main" style="margin-left:250px">
 
   <div class="w3-row w3-padding-64">
     <div class="w3-call.m12 w3-container">
-      <h1 class="w3-text-black">Residents Info</h1>
-
-      
-        <div class="w3-container">
-          <label for="userId"><b>Username:</b></label></br>
-          <label type="text" name="userId"><?php echo $_SESSION['userId']; ?></br><br>
-          <label for="name"><b>Name:</b></label></br>
-          <label type="text" name="name"><?php echo $name; ?></br><br>
-          <label for="contact_no"><b>Contact Number:</b></label></br>
-          <label type="text" name="contact_no"><?php echo $contact_no; ?></br><br>
-          <label for="members"><b>Number of family members:</b></label></br>
-          <label type="text" name="members"><?php echo $members; ?></br><br>
-          <label for="alternate_contact"><b>Alternate Contact Number:</b></label></br>
-          <label type="text" name="alternate_contact"><?php echo $alternate_contact; ?></br><br>
-          
-          <a class="w3-button1"  style="width:150px;" href = "changePass.php">Change Password </a>
-        </div>
+      <h1 class="w3-text-black">Change Password</h1>
+      <p class="w3-justify"><br/>
     <div class="w3-container">
-      <!-- Show all members of flat here -->
+      <label for="op"><b>Old Password:</b></label></br>
+      <input type="password" placeholder="Enter old password" name="op" required id = "op"></br>
+      <label for="np"><b>New Password:</b></label></br>
+      <input type="password" placeholder="Enter new password" name="np" required id = "np"></br>
+      <label for="cnp"><b>Confirm New Password:</b></label></br>
+      <input type="password" placeholder="Confirm new password" name="cnp" required id = "cnp"></br>
+      <p id = "error"></p></br>
+      <button type = "Submit" class="w3-button1"  style="width:100px;" name = "change-password">Submit</button>
     </div>
  <footer id="myFooter">
     <div class="w3-container w3-bottom w3-theme-l1">
@@ -108,9 +80,10 @@ input[type=text], input[type=password] {
     </div>
  </footer>
 
+
 <!-- END MAIN -->
 </div>
-
+</form>
 <script>
 // Get the Sidebar
 var mySidebar = document.getElementById("mySidebar");
@@ -134,8 +107,68 @@ function w3_close() {
   mySidebar.style.display = "none";
   overlayBg.style.display = "none";
 }
+
+function myFunction(){
+    var np = document.getElementById("np");
+    var cnp = document.getElementById("cnp");
+    if(np.value!=cnp.value){
+        np.style.backgroundColor = "red";
+        cnp.style.backgroundColor = "red";
+        document.getElementById("error").innerHTML = "Password doesn't match";
+    }
+    else{
+        np.style.backgroundColor = "green";
+        cnp.style.backgroundColor = "green";
+        
+        document.getElementById("error").innerHTML = "";
+    }
+}
+
+
 </script>
+
+<?php
+	if(isset($_POST["change-password"]))
+	{
+		include_once 'includes/connection.php';
+
+		$op = $_POST["op"];
+		$np = $_POST["np"];
+		$cnp = $_POST["cnp"];
+		
+		
+        
+        if($np != $cnp){
+            echo '<script type="text/javascript">';
+            echo ' alert("Password doesn\'t match")';   
+            echo '</script>';
+        }
+        else{
+            $sql = 'SELECT * FROM login where username like (\''.$_SESSION["userId"].'\');';
+		    $result = mysqli_query($conn, $sql);
+            if($row = mysqli_fetch_assoc($result))   // If query is not empty
+            {    
+                if($op != $row['pwd'])
+                {
+                    echo '<script type="text/javascript">';
+                    echo ' alert("Wrong Password")';   
+                    echo '</script>';
+                }
+                else{
+                    $password_update = 'UPDATE login SET pwd = \''.$np.'\' WHERE username like(\''.$_SESSION["userId"].'\');';
+                    $result = mysqli_query($conn, $password_update);
+
+                        echo '<script type="text/javascript">';
+                        echo ' alert("Password changed Successfully")';   
+                        echo '</script>';
+                }
+
+            }
+        }
+	}
+
+?>
+
 
 </body>
 </html>
-

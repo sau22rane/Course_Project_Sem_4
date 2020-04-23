@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+
+<?php
+   session_start();
+?>
+
 <html lang="en">
 <title>Welcome to Housing Society Management System</title>
 <link rel = "icon" type = "image/png" href = "pics/logo.png">
@@ -52,9 +57,9 @@ border-color:black;
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
-  <a class="w3-bar-item w3-button w3-hover-black" href="resident.html">Residents Info</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="rguests.html">View guest history</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="login.html">Logout</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="resident.php">Residents Info</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="rguests.php">View guest history</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="logout.php">Logout</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -71,9 +76,7 @@ border-color:black;
       <!-- Show guest table of flat here -->
       <?php
         include_once 'includes/connection.php';
-        $wing = $_POST['wing'];
-        $flat = $_POST['flat'];
-        $sql = 'SELECT * FROM visitor where flat_no like(\''.$flat.'\') and wing like(\''.$wing.'\');';
+        $sql = 'SELECT * FROM visitor where username like(\''.$_SESSION['userId'].'\') ;';
         $result = mysqli_query($conn, $sql);
         $result_check = mysqli_num_rows($result);
 

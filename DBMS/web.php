@@ -1,11 +1,4 @@
 <!DOCTYPE html>
-
-<?php
-
-   session_start();
-
-?>
-
 <html lang="en">
 <title>Welcome to Housing Society Management System</title>
 <link rel = "icon" type = "image/png" href = "pics/logo.png">
@@ -24,41 +17,15 @@ html,body,h1,h4 {font-family: "Roboto", sans-serif;}
   bottom: 0;
   height: inherit;
 }
-/* Full-width input fields */
-input[type=text], input[type=password] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  display: inline-block;
-  border: none;
-  background: #f1f1f1;
-}
 </style>
 <body>
-<!-- PHP and Sql Connection -->
-<?php
-  include_once 'includes/connection.php';
-  $sql = 'SELECT * FROM resident where username like(\''.$_SESSION['userId'].'\');';
-        $result = mysqli_query($conn, $sql);
-        $result_check = mysqli_num_rows($result);
-        if($result_check>0){
-            $row = mysqli_fetch_assoc($result);
-            $name = $row['name'];
-            $wing = $row['wing'];
-            $flat_no =  $row['flat_no'];
-            $contact_no = $row['contact_no'];
-            $alternate_contact = $row['alternate_contact'];
-            $members = $row['members'];            
-        }
-?>
-
 
 <!-- Navbar -->
 <div class="w3-top">
   <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
     <a class="w3-bar-item w3-button w3-left w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-    <a class="w3-bar-item"> <img src="pics/logo.png" style="width:25px;height:25px;"> HSMS</a>
-    <a class="w3-bar-item w3-button1 w3-right" href="login.html"> Logout</a>
+    <a class="w3-bar-item w3-button" href="web.php"> <img src="pics/logo.png" style="width:25px;height:25px;"> HSMS</a>
+    <a class="w3-bar-item w3-button1 w3-right" href="login.php"> Login</a>
   </div>
 </div>
 
@@ -68,9 +35,9 @@ input[type=text], input[type=password] {
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
-  <a class="w3-bar-item w3-button w3-hover-black" href = "resident.php" >Resident Info</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href = "rguests.php">View guest history</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href = "">Logout</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="login.php">Login</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="rules.php">Rules</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="aboutus.php">About Us</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -82,31 +49,15 @@ input[type=text], input[type=password] {
 
   <div class="w3-row w3-padding-64">
     <div class="w3-call.m12 w3-container">
-      <h1 class="w3-text-black">Residents Info</h1>
+      <img src="pics/ss.jpg" style="width:1320px;height:450px;">
+      <h1 class="w3-text-black">Welcome to "Housing Society Name" Residents Forum</h1>
+      <p class="w3-justify">Welcome to "Housing Society Name" Cooperative Housing Society Ltd.<br/></p>
 
-      
-        <div class="w3-container">
-          <label for="userId"><b>Username:</b></label></br>
-          <label type="text" name="userId"><?php echo $_SESSION['userId']; ?></br><br>
-          <label for="name"><b>Name:</b></label></br>
-          <label type="text" name="name"><?php echo $name; ?></br><br>
-          <label for="contact_no"><b>Contact Number:</b></label></br>
-          <label type="text" name="contact_no"><?php echo $contact_no; ?></br><br>
-          <label for="members"><b>Number of family members:</b></label></br>
-          <label type="text" name="members"><?php echo $members; ?></br><br>
-          <label for="alternate_contact"><b>Alternate Contact Number:</b></label></br>
-          <label type="text" name="alternate_contact"><?php echo $alternate_contact; ?></br><br>
-          
-          <a class="w3-button1"  style="width:150px;" href = "changePass.php">Change Password </a>
-        </div>
-    <div class="w3-container">
-      <!-- Show all members of flat here -->
-    </div>
- <footer id="myFooter">
+  <footer id="myFooter">
     <div class="w3-container w3-bottom w3-theme-l1">
       <p>Powered by Roll Nos. 72,73,76,79 of SY CS-B</a></p>
     </div>
- </footer>
+  </footer>
 
 <!-- END MAIN -->
 </div>
@@ -138,4 +89,3 @@ function w3_close() {
 
 </body>
 </html>
-

@@ -13,7 +13,7 @@ int main(){
     socklen_t clilen;
     char buffer[256];
     int opt = 1;
-    char ip_address[20];
+    char ip_address[20], name[20];
     struct sockaddr_in serv_addr, cli_addr;
     /* if (argc < 2) {
         printf("ERROR, no port provided\n");
@@ -87,9 +87,12 @@ int main(){
 
     FILE *fpread; 
     char dataToBeRead[55]; 
+    printf("Enter file name to be sent: ");
+    scanf("%s",name);
+    scanf("%*c");
+    send(newsockfd, name, sizeof(name), 0);
     
-    int i =0;
-    fpread = fopen("Images/city.jpg", "rb") ;
+    fpread = fopen(name, "rb") ;
       
     if ( fpread == NULL ) 
     { 
@@ -102,8 +105,12 @@ int main(){
           
         while( fread ( dataToBeRead, sizeof(dataToBeRead),1, fpread ) != NULL ) 
         {  
-            i++;
             send(newsockfd, dataToBeRead, sizeof(dataToBeRead), 0);
+            n = read(newsockfd,buffer,255);
+            if (n < 0)
+                break;
+            else continue;
+
          } 
         
         /* int i=0;

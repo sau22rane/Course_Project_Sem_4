@@ -11,26 +11,26 @@
 
 
 
-int main(int argc, char *argv[])
+int main()
 {
     int sockfd, port_no, n;
     struct sockaddr_in serv_addr;
     struct hostent *server;
 
-    char buffer[256], ip_address[20];
-    if (argc < 3) {
-       printf("usage %s hostname port\n");
-       exit(0);
-    }
-    port_no = atoi(argv[2]);
+    char buffer[256], ip_address[20], port_char[10];
+    
+    printf("Enter IP adderss of server: ");
+    scanf("%s",ip_address);
+    scanf("%*c");
+    printf("Enter port number for communication: ");
+    scanf("%d",&port_no);
+    scanf("%*c");
 
-
-
-
+    
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) 
         printf("ERROR opening socket");
-    server = gethostbyname(argv[1]);
+    server = gethostbyname(ip_address);
     if (server == NULL) {
         printf("ERROR, no such host\n");
         exit(0);
@@ -74,9 +74,9 @@ int main(int argc, char *argv[])
     
     if(strcmp(buffer,"OK")==0){
         //Read image 
-        printf("Reading data\n");
+        n = read(sockfd, dataToBeRead, sizeof(dataToBeRead));
     
-        fpwrite = fopen("Images/trial.jpg", "wb") ; 
+        fpwrite = fopen(dataToBeRead, "wb") ; 
         
         if ( fpwrite == NULL ) 
         { 
@@ -86,6 +86,8 @@ int main(int argc, char *argv[])
         int i=0;
         n = read(sockfd, dataToBeRead, sizeof(dataToBeRead));
         while(strcmp(dataToBeRead,"CLOSE")){
+            
+            n = write(sockfd, "1", strlen("1"));
             fwrite(dataToBeRead,1,sizeof(dataToBeRead),fpwrite);
             n = read(sockfd, dataToBeRead, sizeof(dataToBeRead));
         }
