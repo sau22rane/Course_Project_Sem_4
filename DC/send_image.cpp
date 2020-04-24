@@ -8,6 +8,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+void encode_nrzi(char*,char*,int);
+
 int main(){
     int sockfd, newsockfd, port_no, n;
     socklen_t clilen;
@@ -86,7 +88,7 @@ int main(){
     //Send Image
 
     FILE *fpread; 
-    char dataToBeRead[55]; 
+    char dataToBeRead[55], encoded[55]; 
     printf("Enter file name to be sent: ");
     scanf("%s",name);
     scanf("%*c");
@@ -105,7 +107,8 @@ int main(){
           
         while( fread ( dataToBeRead, sizeof(dataToBeRead),1, fpread ) != NULL ) 
         {  
-            send(newsockfd, dataToBeRead, sizeof(dataToBeRead), 0);
+            encode_nrzi(dataToBeRead,encoded,55);
+            send(newsockfd, encoded, sizeof(dataToBeRead), 0);
             n = read(newsockfd,buffer,255);
             if (n < 0)
                 break;
@@ -132,5 +135,31 @@ int main(){
     return 0; 
 }
 
-
+void encode_nrzi(char *byte, char *encoded, int size){
+    int i,j, temp, prev, val;
+    for(j = 0;j<size;j++){
+        temp=0;
+        for(i = 0; i <= 7; i ++){
+            
+            val = (byte[j] >> i) & 0x01;
+            if(i==0){
+                prev = val;
+                temp = (prev<<i);
+            }
+            else{
+                if(val == 0){
+                    temp = temp+(prev<<i);
+                }
+                if(val == 1){
+                    if(prev == 0)
+                        prev =1;
+                    else
+                        prev = 0;
+                    temp = temp+(prev<<i);
+                }
+            }
+        }
+        encoded[j] = temp;
+    }
+}
 

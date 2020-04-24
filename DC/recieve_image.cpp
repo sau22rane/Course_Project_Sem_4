@@ -9,7 +9,7 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 
-
+void decode_nrzi(char*,char*,int);
 
 int main()
 {
@@ -70,7 +70,7 @@ int main()
 
 
     FILE *fpwrite ; 
-    char dataToBeRead[55];
+    char dataToBeRead[55], decoded[55];
     
     if(strcmp(buffer,"OK")==0){
         //Read image 
@@ -85,11 +85,13 @@ int main()
         else{
         int i=0;
         n = read(sockfd, dataToBeRead, sizeof(dataToBeRead));
-        while(strcmp(dataToBeRead,"CLOSE")){
+        decode_nrzi(dataToBeRead,decoded,55);
+        while(strcmp(decoded,"CLOSE")){
             
             n = write(sockfd, "1", strlen("1"));
-            fwrite(dataToBeRead,1,sizeof(dataToBeRead),fpwrite);
+            fwrite(decoded,1,sizeof(decoded),fpwrite);
             n = read(sockfd, dataToBeRead, sizeof(dataToBeRead));
+            decode_nrzi(dataToBeRead,decoded,55);
         }
         }
         printf("\nClosing Socket\n");
@@ -99,4 +101,30 @@ int main()
     fclose(fpwrite);
     close(sockfd);
     return 0;
+}
+
+void decode_nrzi(char *encoded, char *decoded, int size){
+    int i,j,val,prev,temp;
+    for(j = 0;j<size;j++){
+        temp=0;
+        for(i = 0; i <= 7; i ++){
+            
+            val = (encoded[j] >> i) & 0x01;
+            if(i==0){
+                prev = val;
+                temp = prev;
+            }
+            else{
+                if(val == prev){
+                    temp = temp+(0<<i);
+                    prev = val;
+                }
+                else{
+                    temp = temp+(1<<i);
+                    prev = val;
+                }
+            }
+        }
+        decoded[j] = temp;
+    }
 }
