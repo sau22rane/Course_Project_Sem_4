@@ -17,7 +17,7 @@ int main()
     struct sockaddr_in serv_addr;
     struct hostent *server;
 
-    char buffer[256], ip_address[20], port_char[10];
+    char buffer[256], ip_address[20], port_char[10], password[20];
     
     printf("Enter IP adderss of server: ");
     scanf("%s",ip_address);
@@ -37,35 +37,49 @@ int main()
     }
     bzero((char *) &serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
-    bcopy((char *)server->h_addr, 
-         (char *)&serv_addr.sin_addr.s_addr,
-         server->h_length);
+    bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
     serv_addr.sin_port = htons(port_no);
     if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) 
         printf("ERROR connecting");
-    printf("Please enter the message: ");
+
     bzero(buffer,256);
-    fgets(buffer,255,stdin);
-    /* n = write(sockfd, buffer, strlen(buffer));
+    n = read(sockfd, buffer, 255);
     if (n < 0) 
-         printf("ERROR writing to socket"); */
-    bzero(buffer,256);
+         printf("ERROR reading from socket");
+
+    goto password_recieve;
+
+    password_recieve:{
+        printf("\nPlease enter the password: ");
+        scanf("%s",password);
+        scanf("%*c");
+    }
+
+    if(strcmp(password,buffer)){
+        printf("Incorrect password.......!!!!!\n");
+        goto password_recieve;
+    }
+
+    printf("Connection Seccessfull\n");
+
+    printf("\nSending: SYN\n");
+    send(sockfd, "SYN", 4, 0);
 
     n = read(sockfd, buffer, 255);
     if (n < 0) 
          printf("ERROR reading from socket");
     printf("Message Recieved: %s\n", buffer);
-    if(strcmp(buffer,"START")==0)
+
+    if(strcmp(buffer,"SYN_ACK")==0)
     {
-        printf("It works\n");
-        char buf[] = "INITIATE_SEND";
-        n = write(sockfd, buf, strlen(buf));
+        char buf[] = "ACK";
+        printf("Sending: ACK\n");
+        send(sockfd, buf, strlen(buf), 0);
 
     }
     n = read(sockfd, buffer, 255);
     if (n < 0) 
          printf("ERROR reading from socket");
-    printf("Message Recieved: %s\n", buffer);
 
 
 
@@ -76,7 +90,8 @@ int main()
         //Read image 
         n = read(sockfd, dataToBeRead, sizeof(dataToBeRead));
     
-        fpwrite = fopen(dataToBeRead, "wb") ; 
+        //fpwrite = fopen(dataToBeRead, "wb") ; 
+        fpwrite = fopen("raneTrial.jpg","wb");
         
         if ( fpwrite == NULL ) 
         { 
@@ -84,19 +99,20 @@ int main()
         } 
         else{
         int i=0;
+        send(sockfd, "SYN", 4, 0);
+        printf("\nData transfer started....!!!\n");
         n = read(sockfd, dataToBeRead, sizeof(dataToBeRead));
         decode_nrzi(dataToBeRead,decoded,55);
-        while(strcmp(decoded,"CLOSE")){
-            
-            n = write(sockfd, "1", strlen("1"));
+        while(strcmp(dataToBeRead,"CLOSE")){
+            send(sockfd, "1", strlen("1"), 0);
+            decode_nrzi(dataToBeRead,decoded,55);
             fwrite(decoded,1,sizeof(decoded),fpwrite);
             n = read(sockfd, dataToBeRead, sizeof(dataToBeRead));
-            decode_nrzi(dataToBeRead,decoded,55);
         }
         }
         printf("\nClosing Socket\n");
 
-    }
+    } 
 
     fclose(fpwrite);
     close(sockfd);

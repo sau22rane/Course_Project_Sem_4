@@ -15,7 +15,7 @@ int main(){
     socklen_t clilen;
     char buffer[256];
     int opt = 1;
-    char ip_address[20], name[20];
+    char ip_address[20], password[20], name[20];
     struct sockaddr_in serv_addr, cli_addr;
     /* if (argc < 2) {
         printf("ERROR, no port provided\n");
@@ -26,11 +26,14 @@ int main(){
     scanf("%s",ip_address);
     printf("Enter the port number: ");
     scanf("%d",&port_no);
+    printf("Create a password for server: ");
+    scanf("%s",password);
+    scanf("%*c");
+    printf("Setting up server\nWaiting for Connections\n\n");
 
     sockfd =  socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) 
         printf("ERROR opening socket");
-    printf("All Good");
 
     if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) 
     { 
@@ -64,22 +67,34 @@ int main(){
     if (newsockfd < 0) 
         printf("ERROR on accept");
 
-    printf("server: got connection from %s port %d\n", inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
     
     //send a data
-    send(newsockfd, "START", 13, 0);
-    printf("Sending message: START\n");
+    send(newsockfd, password, strlen(password), 0);
+    
+    n = read(newsockfd,buffer,255);
+    if (n < 0)
+        printf("ERROR reading from socket");
+    printf("server: got connection from %s port %d\n", inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
+    printf("Recieved Message: %s\n",buffer);
+
+
+    if(strcmp(buffer,"SYN")==0){
+        printf("Sending SYN_ACK\n");
+        send(newsockfd, "SYN_ACK", 13, 0);
+    }
+
+    
     bzero(buffer,256);
 
 
-    
+     
     //SYN/ASYN and ACK
     n = read(newsockfd,buffer,255);
     if (n < 0)
         printf("ERROR reading from socket");
     printf("Recieved Message: %s\n",buffer);
-    if(strcmp(buffer,"INITIATE_SEND")==0){
-        printf("Send OK\n");
+
+    if(strcmp(buffer,"ACK")==0){
         send(newsockfd, "OK", 13, 0);
     }
 
@@ -89,7 +104,7 @@ int main(){
 
     FILE *fpread; 
     char dataToBeRead[55], encoded[55]; 
-    printf("Enter file name to be sent: ");
+    printf("\nEnter file name to be sent: ");
     scanf("%s",name);
     scanf("%*c");
     send(newsockfd, name, sizeof(name), 0);
@@ -98,12 +113,15 @@ int main(){
       
     if ( fpread == NULL ) 
     { 
-        printf( "GfgTest.c file failed to open." ) ; 
+        printf( "%s failed to open.\n",name) ; 
     } 
     else
     { 
           
-        printf("The file is now opened.\n") ; 
+        printf("\nThe file is now opened...\nStarting Data transfer now....!!!!\n");
+        n = read(newsockfd,buffer,255);
+        if (n < 0)
+            printf("ERROR reading from socket");
           
         while( fread ( dataToBeRead, sizeof(dataToBeRead),1, fpread ) != NULL ) 
         {  
@@ -115,18 +133,12 @@ int main(){
             else continue;
 
          } 
-        
-        /* int i=0;
-        for(;i<10;i++){
-            send(newsockfd, "gha", 15, 0);
-        } */
           
         fclose(fpread) ; 
         printf("Data successfully sent\n"); 
-        printf("The file is now closed.") ; 
     }
 
-    printf("\n\nSending: Close\n");
+    printf("\n\nShutting down server\n");
     send(newsockfd, "CLOSE", 13, 0);
 
 
