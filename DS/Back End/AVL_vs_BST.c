@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+int result_no, iter;
 typedef struct Node
 {
     int flight_number;
@@ -197,11 +198,12 @@ void add(Node* root)
 
 void search(Node *root, char a[], char b[], char c[]) 
 {
+    iter++;
     if(root != NULL) 
-    { 
+    {   
         if(strcmp(root->date,a)==0 && strcmp(root->from,b)==0 && strcmp(root->dst,c)==0)
         {
-            add(root);
+            result_no++;
         }
         search(root->left,a,b,c); 
         search(root->right,a,b,c); 
@@ -469,12 +471,45 @@ void write (Node *root)
     fclose (fp);
 }
 
+
+Node* bst_insert(Node* node, int key, char a[],char b[],char c[], char d[], char e[], int f)
+{ 
+    if (node == NULL) 
+        return(newNode(key,a,b,c,d,e,f)); 
+  
+    if (key < node->flight_number) 
+        node->left  = insert(node->left, key,a,b,c,d,e,f); 
+    else if (key > node->flight_number) 
+        node->right = insert(node->right, key, a,b,c,d,e,f); 
+    else
+        return node;
+}
+
+
+int height_tree(Node* node)  
+{ 
+   if (node==NULL)  
+       return 0; 
+   else 
+   { 
+       /* compute the depth of each subtree */
+       int lDepth = height_tree(node->left); 
+       int rDepth = height_tree(node->right); 
+  
+       /* use the larger one */
+       if (lDepth > rDepth)  
+           return(lDepth+1); 
+       else return(rDepth+1); 
+   } 
+}
+
 int main()
 {
     int c, n;
     char date[20], from[20], to[20], flight_name[20], time[20];
-    Node *root;
-    root = NULL;
+    Node *avl_root, *bst_root;
+    avl_root = NULL;
+    bst_root = NULL;
     int no;
 
     FILE *fp;
@@ -484,7 +519,7 @@ int main()
 
     while(j>0)
     {
-        printf ("1. Add Flight Data \n2. Book Flights \n3. Update \n4. Delete flight \n5. Exit\n");
+        printf ("1. Add Flight Data \n2. Book Flights \n3. Exit\n");
         printf ("Your choice : ");
         scanf ("%d", &c); 
         scanf("%*c");
@@ -524,7 +559,9 @@ int main()
                             field = strtok (NULL, ",");
                             field_count++;
                         }
-                        root = insert (root, flight_number, date, from, to, flight_name, time, price);
+                        avl_root = insert (avl_root, flight_number, date, from, to, flight_name, time, price);
+                        bst_root = bst_insert (bst_root, flight_number, date, from, to, flight_name, time, price);
+                        
                     }
 
                     /* while (!feof(fp))
@@ -534,6 +571,10 @@ int main()
                     } */
                     
                     printf ("\nFile Read and Flight data successfully added\n\n");
+                    int avl_height = height_tree(avl_root);
+                    int bst_height = height_tree(bst_root);
+                    printf("AVL tree created with height of %d \n",avl_height);
+                    printf("BST created with height of %d \n\n",bst_height);
 
                     /* printf ("\npreorder : ");
                     preOrder (root); */
@@ -553,34 +594,20 @@ int main()
                     printf ("Enter date : ");
                     scanf ("%s", date);
                     printf("\n");
-
-                    search (root, date, from, to);
-                    no = display(head);
-                    book (head, no);
-
-                    head = NULL;
+                    
+                    result_no = 0;
+                    iter = 0;
+                    search (avl_root, date, from, to);
+                    printf("AVL-Tree: Search returned %d results    No. of nodes visited %d .\n\n",result_no,iter);
+                    result_no = 0;
+                    iter = 0;
+                    search (bst_root, date, from, to);
+                    printf("BST     : Search returned %d results    No. of nodes visited %d .\n\n",result_no,iter);
+                    
                     
                     break;
 
-            case 3: printf ("\nEnter flight number whose data you want to update : ");
-                    scanf ("%d", &flight_number);
-
-                    update (root, flight_number);                  
-                    
-                    break;
-
-            case 4: printf ("\nEnter flight number to delete : ");
-                    scanf ("%d", &flight_number);
-                    
-                    deleteNode(root, flight_number);
-                    
-                    break;
-
-            case 5: { }
-                    FILE *fp = fopen ("flight data.csv", "w+");
-                    fclose (fp);
-                    write (root);
-
+            case 3:
                     return 0;
         }
     }
