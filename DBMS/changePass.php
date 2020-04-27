@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<?php
+   session_start();
+?>
 <html lang="en">
 <title>Welcome to Housing Society Management System</title>
 <link rel = "icon" type = "image/png" href = "pics/logo.png">
@@ -54,33 +57,33 @@ input[type=text], input[type=password] {
 <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
 <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
-
+<form method = "post">
 <div class="w3-main" style="margin-left:250px">
 
   <div class="w3-row w3-padding-64">
     <div class="w3-call.m12 w3-container">
       <h1 class="w3-text-black">Change Password</h1>
       <p class="w3-justify"><br/>
-  <form>
     <div class="w3-container">
       <label for="op"><b>Old Password:</b></label></br>
-      <input type="text" placeholder="Enter old password" name="op" required></br>
+      <input type="password" placeholder="Enter old password" name="op" required id = "op"></br>
       <label for="np"><b>New Password:</b></label></br>
-      <input type="text" placeholder="Enter new password" name="np" required></br>
+      <input type="password" placeholder="Enter new password" name="np" required id = "np"></br>
       <label for="cnp"><b>Confirm New Password:</b></label></br>
-      <input type="text" placeholder="Confirm new password" name="cnp" required></br>
-      <a class="w3-button1" href="main.html" style="width:100px;">Submit</a>
+      <input type="password" placeholder="Confirm new password" name="cnp" required id = "cnp"></br>
+      <p id = "error"></p></br>
+      <button type = "Submit" class="w3-button1"  style="width:100px;" name = "change-password">Submit</button>
     </div>
-  </form>
  <footer id="myFooter">
     <div class="w3-container w3-bottom w3-theme-l1">
       <p>Powered by Roll Nos. 72,73,76,79 of SY CS-B</a></p>
     </div>
  </footer>
 
+
 <!-- END MAIN -->
 </div>
-
+</form>
 <script>
 // Get the Sidebar
 var mySidebar = document.getElementById("mySidebar");
@@ -104,8 +107,78 @@ function w3_close() {
   mySidebar.style.display = "none";
   overlayBg.style.display = "none";
 }
+
+function myFunction(){
+    var np = document.getElementById("np");
+    var cnp = document.getElementById("cnp");
+    if(np.value!=cnp.value){
+        np.style.backgroundColor = "red";
+        cnp.style.backgroundColor = "red";
+        document.getElementById("error").innerHTML = "Password doesn't match";
+    }
+    else{
+        np.style.backgroundColor = "green";
+        cnp.style.backgroundColor = "green";
+        
+        document.getElementById("error").innerHTML = "";
+    }
+}
+
+
 </script>
+
+<?php
+	if(isset($_POST["change-password"]))
+	{
+		$servername = "localhost";
+		$username = "root";
+		$dbname = "hsm";
+		
+		// Database connection
+		$conn = new mysqli($servername,$username, "", $dbname);
+
+		$op = $_POST["op"];
+		$np = $_POST["np"];
+		$cnp = $_POST["cnp"];
+		$user = $_SESSION['userId'];
+   
+		if($np != $cnp)
+		{
+            echo '<script type="text/javascript">';
+            echo ' alert("Password doesn\'t match")';   
+            echo '</script>';
+		}
+		
+		else
+		{
+            $sql = "SELECT * FROM login where username like ('$user');";
+		    $result = mysqli_query($conn, $sql);
+			
+			if($row = mysqli_fetch_assoc($result))   // If query is not empty
+            {    
+                if($op != $row['password'])
+                {
+                    echo '<script type="text/javascript">';
+                    echo ' alert("Wrong Password")';   
+                    echo '</script>';
+				}
+				
+				else
+				{
+                    $password_update = "UPDATE login SET password = '$np' WHERE username like('$user');";
+                    $result = mysqli_query($conn, $password_update);
+
+                        echo '<script type="text/javascript">';
+                        echo ' alert("Password changed Successfully")';   
+                        echo '</script>';
+                }
+
+            }
+        }
+	}
+
+?>
+
 
 </body>
 </html>
-

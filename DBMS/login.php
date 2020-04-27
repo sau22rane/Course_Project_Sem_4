@@ -109,17 +109,11 @@ function w3_close() {
 	if(isset($_POST["login-submit"]))
 	{
 		$servername = "localhost";
-
-		$dbUsername = "root";
-		$dbPassword = "";
+		$username = "root";
 		$dbname = "hsm";
-
-		$conn = mysqli_connect($servername,$dbUsername,$dbPassword,$dbname);
-
-		if(!$conn)
-		{
-			die("Connection Failed :".mysqli_connect_error()); 
-		}
+		
+		// Database connection
+		$conn = new mysqli($servername,$username, "", $dbname);
 
 		$username = $_POST["uname"];
 		$password = $_POST["psw"];
@@ -155,8 +149,7 @@ function w3_close() {
 					
 					if($row['login_type']==0)
 					{
-						header("Location: resident.php?login=success");
-						
+						header("Location: resident.php?login=success");	
 					}
 
 					else if($row['login_type']==1)

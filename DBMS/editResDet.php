@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<?php
+   session_start();
+?>
 <html lang="en">
 <title>Welcome to Housing Society Management System</title>
 <link rel = "icon" type = "image/png" href = "pics/logo.png">
@@ -35,7 +38,7 @@ input[type=text], input[type=password] {
   <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
     <a class="w3-bar-item w3-button w3-left w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
     <a class="w3-bar-item"> <img src="pics/logo.png" style="width:25px;height:25px;"> HSMS</a>
-    <a class="w3-bar-item w3-button1 w3-right" href="login.html"> Logout</a>
+    <a class="w3-bar-item w3-button1 w3-right" href="login.php"> Logout</a>
   </div>
 </div>
 
@@ -61,21 +64,17 @@ input[type=text], input[type=password] {
     <div class="w3-call.m12 w3-container">
       <h1 class="w3-text-black">Edit Details</h1>
       <p class="w3-justify">Please fill up the form below:<br/><br/>
-  <form>
+  <form action = "editResDet.php" method = "post">
     <div class="w3-container">
-      <label for="rfno"><b>Flat Number:</b></label></br>
-      <input type="text" placeholder="Enter flat number" name="rfno" required></br>
-      <label for="rw"><b>Wing:</b></label></br>
-      <input type="text" placeholder="Enter wing" name="rw" required></br>
       <label for="rname"><b>Name:</b></label></br>
       <input type="text" placeholder="Enter full name" name="rname" required></br>
       <label for="rcno"><b>Contact Number:</b></label></br>
-      <input type="text" placeholder="Enter contact number" name="rcno" required></br>
+      <input type="number" placeholder="Enter contact number" name="rcno" required></br><br>
       <label for="racno"><b>Alternate Contact Number:</b></label></br>
-      <input type="text" placeholder="Enter alternate contact number" name="racno" required></br>
+      <input type="number" placeholder="Enter alternate contact number" name="racno" required></br><br>
       <label for="rnm"><b>Number of members:</b></label></br>
-      <input type="text" placeholder="Enter number of members staying in flat" name="rnm" required></br>
-      <a class="w3-button1" href="main.html" style="width:100px;">Submit</a>
+      <input type="number" placeholder="Enter number of members staying in flat" name="rnm" required></br><br>
+      <button type = "Submit" class="w3-button1"  style="width:100px;" name = "change-detail">Submit</button>
     </div>
   </form>
  <footer id="myFooter">
@@ -112,6 +111,54 @@ function w3_close() {
 }
 </script>
 
+<?php
+	if(isset($_POST["change-detail"]))
+	{
+		$servername = "localhost";
+		$username = "root";
+		$dbname = "hsm";
+		
+		// Database connection
+		$conn = new mysqli($servername,$username, "", $dbname);
+
+		$name = $_POST["rname"];
+		$cno = $_POST["rcno"];
+		$acno = $_POST["racno"];
+		$nm = $_POST["rnm"];
+		$user = $_SESSION['userId'];
+   		
+        $sql = "SELECT * FROM login where username like ('$user');";
+	    $result = mysqli_query($conn, $sql);
+			
+		if($row = mysqli_fetch_assoc($result))
+        {    	
+            $sql1 = "UPDATE resident SET name = '$name' WHERE username like('$user');";
+			$result1 = mysqli_query($conn, $sql1);
+			$sql2 = "UPDATE resident SET contact_number = '$cno' WHERE username like('$user');";
+			$result2 = mysqli_query($conn, $sql2);
+			$sql3 = "UPDATE resident SET alternate_contact = '$acno' WHERE username like('$user');";
+			$result3 = mysqli_query($conn, $sql3);
+			$sql4 = "UPDATE resident SET members = '$nm' WHERE username like('$user');";
+			$result4 = mysqli_query($conn, $sql4);
+
+			if ($result1)
+			{
+				if ($result1)
+				{
+					if ($result1)
+					{
+						if ($result1)
+						{
+							echo '<script type="text/javascript">';
+							echo ' alert("User Details updated successfully")';   
+							echo '</script>';
+						}
+					}
+				}
+			}
+        }
+    }
+?>
 </body>
 </html>
 

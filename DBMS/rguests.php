@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+
+<?php
+   session_start();
+?>
+
 <html lang="en">
 <title>Welcome to Housing Society Management System</title>
 <link rel = "icon" type = "image/png" href = "pics/logo.png">
@@ -52,9 +57,9 @@ border-color:black;
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
-  <a class="w3-bar-item w3-button w3-hover-black" href="resident.html">Residents Info</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="rguests.html">View guest history</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="login.html">Logout</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="resident.php">Residents Info</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="rguests.php">View guest history</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="logout.php">Logout</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -70,34 +75,47 @@ border-color:black;
     <div class="w3-container">
       <!-- Show guest table of flat here -->
       <?php
-        include_once 'includes/connection.php';
-        $wing = $_POST['wing'];
-        $flat = $_POST['flat'];
-        $sql = 'SELECT * FROM visitor where flat_no like(\''.$flat.'\') and wing like(\''.$wing.'\');';
-        $result = mysqli_query($conn, $sql);
-        $result_check = mysqli_num_rows($result);
+        $servername = "localhost";
+        $username = "root";
+		$dbname = "hsm";  
+		// Database connection
+		$user = $_SESSION ['userId'];
 
-        echo "<table border='1'>
-        <tr>
-        <th>Sr</th>
-        <th>Name</th>
-        <th>Contact number</th>
-        <th>Vehicle</th>
-        <th>Address</th>
-        </tr>";
-        $sr = 1;
-        while($row = mysqli_fetch_assoc($result))
-        {
-        echo "<tr>";
-        echo "<td>" . $sr . "</td>";
-        echo "<td>" . $row['name'] . "</td>";
-        echo "<td>" . $row['contact_no'] . "</td>";
-        echo "<td>" . $row['vehicle_no'] . "</td>";
-        echo "<td>" . $row['address'] . "</td>";
-        echo "</tr>";
-        $sr += 1;
-        }
-        echo "</table>";
+        $conn = new mysqli($servername,$username, "", $dbname);
+        $sql = "SELECT * FROM resident where username like('$user') ;";
+        $result = mysqli_query($conn, $sql);
+		$row = mysqli_fetch_assoc($result);
+		
+		$wing = $row ['wing'];
+		$flat = $row ['flat_no'];
+		$sql2 = "SELECT * FROM visitor WHERE wing = '$wing' and flat_no = '$flat';";
+		$result = mysqli_query($conn, $sql2);
+
+		if (mysqli_num_rows($result) > 0)
+		{
+			echo "<table border='1'>
+			<tr>
+			<th>Sr</th>
+			<th>Name</th>		
+			<th>Contact number</th>
+			<th>Vehicle</th>
+			<th>Address</th>
+			</tr>";
+			$sr = 1;
+			
+			while($row = mysqli_fetch_assoc($result))
+			{
+				echo "<tr>";
+				echo "<td>" . $sr . "</td>";
+				echo "<td>" . $row['name'] . "</td>";
+				echo "<td>" . $row['contact_no'] . "</td>";
+				echo "<td>" . $row['vehicle_no'] . "</td>";
+				echo "<td>" . $row['address'] . "</td>";
+				echo "</tr>";
+				$sr += 1;
+			}
+			echo "</table>";
+		}
         mysqli_close($conn);
         ?>
 
@@ -138,3 +156,4 @@ function w3_close() {
 
 </body>
 </html>
+

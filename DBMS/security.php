@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>Hello Visitor!</title>
+<title>Welcome to Housing Society Management System</title>
 <link rel = "icon" type = "image/png" href = "pics/logo.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,7 +45,7 @@ input[type=text], input[type=password] {
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
-  <a class="w3-bar-item w3-button w3-hover-black" href="security.php">Visitor Form</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="security.php">New registration</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="logout.php">Logout</a>
 </nav>
 
@@ -58,33 +58,18 @@ input[type=text], input[type=password] {
 
   <div class="w3-row w3-padding-64">
     <div class="w3-call.m12 w3-container">
-      <h1 class="w3-text-black">Hello Visitor!</h1>
-      <p class="w3-justify">Welcome to "Housing Society Name" Cooperative Housing Society Ltd.<br/><br/>
-
-Please fill up the form below:<br/><br/>
-  <form action="security.php" method="post">
-    <div class= "w3-container">
-      <label for="vname"><b>Name:</b></label></br>
-      <input type="text" placeholder="Enter your full name" name="vname" required></br>
-      <label for="vvno"><b>Vehicle Number:</b></label></br>
-      <input type="text" placeholder="Enter your vehicle number ('NA' if no vehicle)" name="vvno" required></br>
-      <label for="vcno"><b>Contact Number:</b></label></br>
-      <input type="number" placeholder="Enter your contact number" name="vcno" required></br><br>
-      <label for="vadd"><b>Address:</b></label></br>
-      <input type="text" placeholder="Enter your address" name="vadd" required></br>
-      <label for="vwing"><b>Visiting Wing:</b></label></br>
-      <input type="text" placeholder="Enter the wing which you are visiting" name="vwing" required></br>
-      <label for="vflat"><b>Visiting Flat:</b></label></br>
-      <input type="number" placeholder="Enter the flat number which you are visiting" name="vflat" required></br></br>
-      <button type="submit" name = "submit"> Submit </button>
+      <h1 class="w3-text-black w3-center">Welcome Security Guard</h1>
+    <div class="w3-container w3-center">
+	<a class="w3-button2" href="securityin.php" style="margin-right:10px; width:100px;">Guest In</a>
+	<a class="w3-button2" href="securityout.php" style="width:100px;">Guest Out</a></br>
     </div>
-  </form>
  <footer id="myFooter">
     <div class="w3-container w3-bottom w3-theme-l1">
       <p>Powered by Roll Nos. 72,73,76,79 of SY CS-B</a></p>
     </div>
  </footer>
 
+</div>
 <!-- END MAIN -->
 </div>
 
@@ -111,60 +96,8 @@ function w3_close() {
   mySidebar.style.display = "none";
   overlayBg.style.display = "none";
 }
+
 </script>
-
-
-<?php
-	if (isset($_POST["submit"]))
-	{	
-		$name = $_POST['vname'];
-		$vno = $_POST['vvno'];
-		$cno = $_POST['vcno'];
-		$add = $_POST['vadd'];
-		$wing = $_POST['vwing'];
-		$flat = $_POST['vflat'];
-
-		$servername = "localhost";
-		$username = "root";
-		$dbname = "hsm";
-		
-		// Database connection
-		$conn = new mysqli($servername,$username, "", $dbname);
-		
-		$check = "SELECT * FROM resident where wing = '$wing' and flat_no = $flat;";
-		$result = mysqli_query($conn, $check);
-
-		if (mysqli_num_rows($result) > 0)
-		{
-			if (!$conn) 
-			{
-				die("Connection failed: " . mysqli_connect_error());
-			}
-				
-			$sql = "INSERT INTO visitor (name, contact_no, vehicle_no, address, wing, flat_no) VALUES ('$name', '$cno', '$vno', '$add', '$wing', '$flat');";
-
-			if (mysqli_query($conn, $sql)) 
-			{
-				echo ("Successfully Added");	
-			} 
-			
-			else 
-			{
-				echo '<script type="text/javascript">';
-				echo ' alert("Could not add to the Database")';   
-				echo '</script>';
-			}	
-		}
-
-		else
-		{
-			echo '<script type="text/javascript">';
-			echo ' alert("Please enter a valid flat number")';   
-			echo '</script>';
-		}	
-	}
-?>
 
 </body>
 </html>
-
