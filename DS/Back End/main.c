@@ -406,7 +406,7 @@ Node* deleteNode(Node* root, int flight_number)
   
     else
     {  
-        printf("Record by flight number %d deleted\n\n",flight_number);
+        
         if( (root->left == NULL) || (root->right == NULL) )  
         {  
             Node *temp = root->left ? root->left : root->right; 
@@ -419,6 +419,7 @@ Node* deleteNode(Node* root, int flight_number)
             *root = *temp;
 
             free(temp);  
+	    printf("Record by flight number %d deleted\n\n",flight_number);
         }  
         else
         {   
