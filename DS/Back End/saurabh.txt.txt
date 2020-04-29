@@ -1,0 +1,9 @@
+Passenger Name : saurabh
+Passenger age  : 12
+Passenger gender : male
+Passenger mobile number : 78
+
+Booked Flight Information : 
+
+1522		 SPICEJET		 2/6/2020		 18:55		 NAGPUR		 SURAT		 Rs.4929		 
+----------------------------------------------------------------------------------------------------------------------------------
