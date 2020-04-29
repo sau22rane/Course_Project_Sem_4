@@ -19,7 +19,6 @@ typedef struct Node
     int height;
 }Node;
 
-int delete_number;
 typedef struct LinkedListNode
 {
     Node *ptr;
@@ -219,6 +218,7 @@ int display(struct LinkedListNode* head)
 	if(head==NULL)
 	{
 		printf("No flights\n");
+        return 0;
 	}
 
 	else
@@ -407,10 +407,9 @@ Node* deleteNode(Node* root, int flight_number)
   
     else
     {  
-        
+        printf("Record by flight number %d deleted\n\n",flight_number);
         if( (root->left == NULL) || (root->right == NULL) )  
         {  
-            printf("Record by flight number %d deleted\n\n",delete_number);
             Node *temp = root->left ? root->left : root->right; 
             if (temp == NULL)  
             {  
@@ -421,7 +420,6 @@ Node* deleteNode(Node* root, int flight_number)
             *root = *temp;
 
             free(temp);  
-	        
         }  
         else
         {   
@@ -559,7 +557,8 @@ int main()
 
                     search (root, date, from, to);
                     no = display(head);
-                    book (head, no);
+                    if(no!=0)
+                        book (head, no);
 
                     head = NULL;
                     
@@ -574,7 +573,7 @@ int main()
 
             case 4: printf ("\nEnter flight number to delete : ");
                     scanf ("%d", &flight_number);
-                    delete_number = flight_number;
+                    
                     deleteNode(root, flight_number);
                     
                     break;
