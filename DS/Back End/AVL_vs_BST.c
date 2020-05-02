@@ -20,45 +20,6 @@ typedef struct Node
     int height;
 }Node;
 
-typedef struct LinkedListNode
-{
-    Node *ptr;
-    int index;
-    struct LinkedListNode *next;
-} LinkedListNode;
-
-LinkedListNode *head=NULL;
-
-char *strupr(char *str)
-{
-  unsigned char *p = (unsigned char *)str;
-
-  while (*p) {
-     *p = toupper((unsigned char)*p);
-      p++;
-  }
-
-  return str;
-}
-
-void strip(char *s)
-{
-	int  i,j;
- 
-	for(i=0;s[i]==' '||s[i]=='\t';i++);
-		
-	for(j=0;s[i];i++)
-	{
-		s[j++]=s[i];
-	}
-	s[j]='\0';
-	for(i=0;s[i]!='\0';i++)
-	{
-		if(s[i]!=' '&& s[i]!='\t')
-				j=i;
-	}
-	s[j+1]='\0';
-}
 
 Node* newNode(int key, char a[],char b[],char c[], char d[], char e[], int f) 
 { 
@@ -172,29 +133,6 @@ void preOrder(Node *root)
     } 
 } 
 
-void add(Node* root)
-{
-    if(head == NULL)
-    {
-        head = (LinkedListNode*) malloc(sizeof(LinkedListNode));
-        head->ptr = root;
-        head-> next = NULL;
-        head->index = 1;
-    }
-
-    else
-    {
-        LinkedListNode *temp, *new;
-        new = (LinkedListNode*) malloc(sizeof(LinkedListNode));
-        new -> ptr = root;
-        new -> next = NULL;
-        temp = head;
-        while (temp->next != NULL)   
-            temp = temp->next;     
-        new->index = (temp->index)+1;
-        temp->next = new;
-    }
-}
 
 void search(Node *root, int flight_number) 
 {
