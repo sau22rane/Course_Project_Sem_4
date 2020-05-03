@@ -140,7 +140,7 @@ int main()
                     decode_nrzi(dataToBeRead,decoded,50);
                     while(strcmp(dataToBeRead,"COMPLETE")){
                         send(sockfd, "1", strlen("1"), 0);
-                        decode_nrzi(dataToBeRead,decoded,50);
+                        decode_manchester(dataToBeRead,decoded,50);
                         fwrite(decoded,1,sizeof(decoded),fpwrite);
                         n = read(sockfd, dataToBeRead, sizeof(dataToBeRead));
                     }
@@ -150,7 +150,7 @@ int main()
                     send(sockfd, "SYN", 4, 0);
                     printf("\nData transfer started....!!!\nUsing Differential Manchester encoding\n");
                     n = read(sockfd, dataToBeRead, sizeof(dataToBeRead));
-                    decode_nrzi(dataToBeRead,decoded,50);
+                    decode_diff_manchester(dataToBeRead,decoded,50);
                     while(strcmp(dataToBeRead,"COMPLETE")){
                         send(sockfd, "1", strlen("1"), 0);
                         decode_nrzi(dataToBeRead,decoded,50);

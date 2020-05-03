@@ -174,7 +174,7 @@ int main(){
                         
                         while( fread ( dataToBeRead, sizeof(dataToBeRead),1, fpread ) != NULL ) 
                         {  
-                            encode_nrzi(dataToBeRead,encoded,50);
+                            encode_manchester(dataToBeRead,man_data,50);
                             send(newsockfd, encoded, sizeof(encoded), 0);
                             n = read(newsockfd,buffer,255);
                             if (n < 0)
@@ -214,7 +214,7 @@ int main(){
                         
                         while( fread ( dataToBeRead, sizeof(dataToBeRead),1, fpread ) != NULL ) 
                         {  
-                            encode_nrzi(dataToBeRead,encoded,50);
+                            encode_diff_manchester(dataToBeRead,man_data,50);
                             send(newsockfd, encoded, sizeof(encoded), 0);
                             n = read(newsockfd,buffer,255);
                             if (n < 0)
