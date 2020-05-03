@@ -59,10 +59,10 @@ input[type=text], input[type=password] {
   <div class="w3-row w3-padding-64">
     <div class="w3-call.m12 w3-container">
       <h1 class="w3-text-black w3-center">Welcome Admin</h1>
-      <p class="w3-center">Choose your action<br/>
+      <p class="w3-center">Register new member from below<br/>
     <div class="w3-container w3-center">
-	<a class="w3-button2" href="add.php" style="margin-right:10px; width:300px;">Add a Resident/Guard</a>
-	<a class="w3-button2" href="remove.php" style="width:300px;">Remove a Resident/Guard</a></br>
+	<a class="w3-button2" href="addSec.php" style="margin-right:10px; width:200px;">Add a Guard</a>
+	<a class="w3-button2" href="addRes.php" style="width:200px;">Add a Resident</a></br>
     </div>
  <footer id="myFooter">
     <div class="w3-container w3-bottom w3-theme-l1">

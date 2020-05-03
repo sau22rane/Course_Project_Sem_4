@@ -140,7 +140,7 @@ function w3_close() {
 				die("Connection failed: " . mysqli_connect_error());
 			}
 
-			$sql1 = "INSERT INTO guard (guard_id, name, contact_no, doj) VALUES ('$id','$name' ,'$cno', '$doj');";
+			$sql1 = "INSERT INTO guard (guard_id, name, contact_no, doj, username) VALUES ('$id','$name' ,'$cno', '$doj', '$un');";
 			$sql2 = "INSERT INTO login (username, password, login_type) VALUES ('$un','$cpsw' ,'$login_type');";
 			
 			if (mysqli_query($conn, $sql1)) 

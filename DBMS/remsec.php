@@ -14,14 +14,14 @@ html,body,h1,h4 {font-family: "Roboto", sans-serif;}
   z-index: 3;
   width: 250px;
   top: 43px;
-  bottom: 0;
+  bottom: 0; 
   height: inherit;
 }
 /* Full-width input fields */
 input[type=text], input[type=password] {
   width: 100%;
   padding: 15px;
-  margin: 5px 0 22px 0;
+  margin: 5px 0 22px 0; 
   display: inline-block;
   border: none;
   background: #f1f1f1;
@@ -58,19 +58,25 @@ input[type=text], input[type=password] {
 
   <div class="w3-row w3-padding-64">
     <div class="w3-call.m12 w3-container">
-      <h1 class="w3-text-black w3-center">Welcome Admin</h1>
-      <p class="w3-center">Choose your action<br/>
-    <div class="w3-container w3-center">
-	<a class="w3-button2" href="add.php" style="margin-right:10px; width:300px;">Add a Resident/Guard</a>
-	<a class="w3-button2" href="remove.php" style="width:300px;">Remove a Resident/Guard</a></br>
+      <h1 class="w3-text-black">Security Registration</h1>
+      <p class="w3-justify">Please fill up the form below:<br/><br/>
+  <form action="remsec.php" method="post">
+    <div class="w3-container">
+      <label for="gid"><b>Guard ID:</b></label></br>
+      <input type="number" placeholder="Enter ID" name="gid" required></br><br>
+      <label for="gpsw"><b>Admin Password:</b></label></br>
+      <input type="password" placeholder="Enter Password" name="apsw" required></br>
+      <label for="gcpsw"><b>Guard Password:</b></label></br>
+      <input type="password" placeholder="Confirm Password" name="gpsw" required></br>
+      <button type="submit" name = "submit"> Submit </button>
     </div>
+  </form>
  <footer id="myFooter">
     <div class="w3-container w3-bottom w3-theme-l1">
       <p>Powered by Roll Nos. 72,73,76,79 of SY CS-B</a></p>
     </div>
  </footer>
 
-</div>
 <!-- END MAIN -->
 </div>
 
@@ -97,8 +103,87 @@ function w3_close() {
   mySidebar.style.display = "none";
   overlayBg.style.display = "none";
 }
-
 </script>
 
+
+<?php   
+    if (isset($_POST["submit"]))
+    {
+		$servername = "localhost";
+		$username = "root";
+        $dbname = "hsm";
+        $lt = 2;
+		
+		// Database connection
+        $conn = new mysqli($servername,$username, "", $dbname);
+        
+        if (!$conn) 
+		{
+			die("Connection failed: " . mysqli_connect_error());
+		}
+
+		$id = $_POST['gid'];
+		$apsw = $_POST['apsw'];
+		$gpsw = $_POST["gpsw"];
+
+        $sql = "SELECT password FROM login where username like (SELECT username FROM guard where guard_id = '$id');";
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        
+        $db_gpsw = $row ["password"];
+
+        $sql = "SELECT password FROM login where username like (SELECT username FROM login where login_type = '$lt');";
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        
+        $db_apsw = $row ["password"];
+
+        if ($apsw == $db_apsw and $gpsw == $db_gpsw)
+        {
+            $sql1 = "DELETE FROM guard where guard_id like ('$id');"; 
+
+            $int = "SELECT * FROM guard where guard_id = '$id';";  
+            $result = mysqli_query($conn, $int);
+            $row = mysqli_fetch_assoc($result);
+            $un = $row ["username"];
+
+            $sql2 = "DELETE FROM login where username like ('$un');";
+
+            $result1 = mysqli_query($conn, $sql1);
+            $result2 = mysqli_query($conn, $sql2);
+
+            if ($result1)
+            {
+                if ($result2)
+                {
+                    echo '<script type="text/javascript">';
+					echo ' alert("Successfully Removed from the Database")';  
+					echo '</script>';
+                }
+
+                else
+                {
+                    echo '<script type="text/javascript">';
+					echo ' alert("Could not remove from the Database")';   
+					echo '</script>';
+                }
+            }
+
+            else 
+            {
+                echo '<script type="text/javascript">';
+				echo ' alert("Could not remove from the Database")';   
+				echo '</script>';
+            }
+        }
+
+        else
+        {
+            echo '<script type="text/javascript">';
+			echo ' alert("Wrong Password! Please enter the correct password")';   
+			echo '</script>';
+        }
+    }
+?>
 </body>
 </html>
