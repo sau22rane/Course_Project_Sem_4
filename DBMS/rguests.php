@@ -75,6 +75,7 @@ border-color:black;
     <div class="w3-container">
       <!-- Show guest table of flat here -->
       <?php
+<<<<<<< HEAD
         include_once 'includes/connection.php';
         $sql = 'SELECT * FROM visitor where username like(\''.$_SESSION['userId'].'\') ;';
         $result = mysqli_query($conn, $sql);
@@ -101,6 +102,49 @@ border-color:black;
         $sr += 1;
         }
         echo "</table>";
+=======
+        $servername = "localhost";
+        $username = "root";
+		$dbname = "hsm";  
+		// Database connection
+		$user = $_SESSION ['userId'];
+
+        $conn = new mysqli($servername,$username, "", $dbname);
+        $sql = "SELECT * FROM resident where username like('$user') ;";
+        $result = mysqli_query($conn, $sql);
+		$row = mysqli_fetch_assoc($result);
+		
+		$wing = $row ['wing'];
+		$flat = $row ['flat_no'];
+		$sql2 = "SELECT * FROM visitor WHERE wing = '$wing' and flat_no = '$flat';";
+		$result = mysqli_query($conn, $sql2);
+
+		if (mysqli_num_rows($result) > 0)
+		{
+			echo "<table border='1'>
+			<tr>
+			<th>Sr</th>
+			<th>Name</th>		
+			<th>Contact number</th>
+			<th>Vehicle</th>
+			<th>Address</th>
+			</tr>";
+			$sr = 1;
+			
+			while($row = mysqli_fetch_assoc($result))
+			{
+				echo "<tr>";
+				echo "<td>" . $sr . "</td>";
+				echo "<td>" . $row['name'] . "</td>";
+				echo "<td>" . $row['contact_no'] . "</td>";
+				echo "<td>" . $row['vehicle_no'] . "</td>";
+				echo "<td>" . $row['address'] . "</td>";
+				echo "</tr>";
+				$sr += 1;
+			}
+			echo "</table>";
+		}
+>>>>>>> master
         mysqli_close($conn);
         ?>
 

@@ -7,8 +7,14 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <string.h>
+#include<iostream>
+#include<string>
+using namespace std;
 
 void encode_nrzi(char*,char*,int);
+void encode_manchester(char*,char*,int);
+void encode_diff_manchester(char*,char*,int);
 
 int main(){
     int sockfd, newsockfd, port_no, n;
@@ -97,54 +103,215 @@ int main(){
     if(strcmp(buffer,"ACK")==0){
         send(newsockfd, "OK", 13, 0);
     }
+//------------------------------------------------------------------------------------------
 
+    int choice, encoding;
+    char encoded[50], dataToBeRead[50],man_data[25];
+    while(1){
+        printf("\n\nSelect one of the following option:\n1. Send data\n2. Demonstrate CRC\n3. close connection\nYour choice: ");
+        scanf("%d",&choice);
+        scanf("%*c");
+        switch(choice){
+            case 1:
+                //Send Image
+                send(newsockfd, "1", 11, 0);
+                n = read(sockfd, buffer, sizeof(buffer));
+                printf("\nSelect one of the following encoding:\n1. NRZ-I\n2. Manchester\n3. Differential Manchester\nYour choice: ");
+                scanf("%d",&encoding);
+                scanf("%*c");
+                FILE *fpread;
+                switch(encoding){
+                    case 1:
+                    //NRZ-I encoding
+                    send(newsockfd, "1", 10, 0);
+                    n = read(sockfd, buffer, sizeof(buffer));
+                    printf("\nEnter file name to be sent: ");
+                    scanf("%s",name);
+                    scanf("%*c");
+                    send(newsockfd, name, sizeof(name), 0);
+                    
+                    fpread = fopen(name, "rb") ;
+                    
+                    if ( fpread == NULL ) 
+                    { 
+                        printf( "%s failed to open.\n",name) ; 
+                    } 
+                    else
+                    { 
+                        
+                        printf("\nThe file is now opened...\nStarting Data transfer now....!!!!\n");
+                        n = read(newsockfd,buffer,255);
+                        if (n < 0)
+                            printf("ERROR reading from socket");
+                        
+                        while( fread ( dataToBeRead, sizeof(dataToBeRead),1, fpread ) != NULL ) 
+                        {  
+                            encode_nrzi(dataToBeRead,encoded,50);
+                            send(newsockfd, encoded, sizeof(encoded), 0);
+                            n = read(newsockfd,buffer,255);
+                            if (n < 0)
+                                break;
+                            else continue;
 
+                        } 
+                        
+                        fclose(fpread) ; 
+                        printf("Data successfully sent\n"); 
+                        send(newsockfd, "COMPLETE", 13, 0);
+                        
+                    }
+                    break;
+                case 2:
+                    //encode_manchester
+                    send(newsockfd, "2", 10, 0);
+                    n = read(sockfd, buffer, sizeof(buffer));
+                    printf("\nEnter file name to be sent: ");
+                    scanf("%s",name);
+                    scanf("%*c");
+                    send(newsockfd, name, sizeof(name), 0);
+                    
+                    fpread = fopen(name, "rb") ;
+                    
+                    if ( fpread == NULL ) 
+                    { 
+                        printf( "%s failed to open.\n",name) ; 
+                    } 
+                    else
+                    { 
+                        
+                        printf("\nThe file is now opened...\nStarting Data transfer now....!!!!\n");
+                        n = read(newsockfd,buffer,255);
+                        if (n < 0)
+                            printf("ERROR reading from socket");
+                        
+                        while( fread ( dataToBeRead, sizeof(dataToBeRead),1, fpread ) != NULL ) 
+                        {  
+                            encode_nrzi(dataToBeRead,encoded,50);
+                            send(newsockfd, encoded, sizeof(encoded), 0);
+                            n = read(newsockfd,buffer,255);
+                            if (n < 0)
+                                break;
+                            else continue;
 
-    //Send Image
+                        } 
+                        
+                        fclose(fpread) ; 
+                        printf("Data successfully sent\n"); 
+                        send(newsockfd, "COMPLETE", 13, 0);
+                        
+                    }
+                    break;
+                case 3:
+                    //encode_diff_manchester
+                    send(newsockfd, "3", 10, 0);
+                    n = read(sockfd, buffer, sizeof(buffer));
+                    printf("\nEnter file name to be sent: ");
+                    scanf("%s",name);
+                    scanf("%*c");
+                    send(newsockfd, name, sizeof(name), 0);
+                    
+                    fpread = fopen(name, "rb") ;
+                    
+                    if ( fpread == NULL ) 
+                    { 
+                        printf( "%s failed to open.\n",name) ; 
+                    } 
+                    else
+                    { 
+                        
+                        printf("\nThe file is now opened...\nStarting Data transfer now....!!!!\n");
+                        n = read(newsockfd,buffer,255);
+                        if (n < 0)
+                            printf("ERROR reading from socket");
+                        
+                        while( fread ( dataToBeRead, sizeof(dataToBeRead),1, fpread ) != NULL ) 
+                        {  
+                            encode_nrzi(dataToBeRead,encoded,50);
+                            send(newsockfd, encoded, sizeof(encoded), 0);
+                            n = read(newsockfd,buffer,255);
+                            if (n < 0)
+                                break;
+                            else continue;
 
-    FILE *fpread; 
-    char dataToBeRead[55], encoded[55]; 
-    printf("\nEnter file name to be sent: ");
-    scanf("%s",name);
-    scanf("%*c");
-    send(newsockfd, name, sizeof(name), 0);
-    
-    fpread = fopen(name, "rb") ;
-      
-    if ( fpread == NULL ) 
-    { 
-        printf( "%s failed to open.\n",name) ; 
-    } 
-    else
-    { 
-          
-        printf("\nThe file is now opened...\nStarting Data transfer now....!!!!\n");
-        n = read(newsockfd,buffer,255);
-        if (n < 0)
-            printf("ERROR reading from socket");
-          
-        while( fread ( dataToBeRead, sizeof(dataToBeRead),1, fpread ) != NULL ) 
-        {  
-            encode_nrzi(dataToBeRead,encoded,55);
-            send(newsockfd, encoded, sizeof(dataToBeRead), 0);
-            n = read(newsockfd,buffer,255);
-            if (n < 0)
+                        } 
+                        
+                        fclose(fpread) ; 
+                        printf("Data successfully sent\n"); 
+                        send(newsockfd, "COMPLETE", 13, 0);
+                        
+                    }
+                    break;
+                }
                 break;
-            else continue;
 
-         } 
-          
-        fclose(fpread) ; 
-        printf("Data successfully sent\n"); 
+            case 2:
+                //Demonstrate crc
+                {
+                    send(newsockfd, "2", 13, 0);
+                int cz;
+                printf("Select one of the following alternative\n1. Send a message\n2. Tamper message\nYour selection: ");
+                scanf("%d",&cz);
+                scanf("%*c");
+
+                string msg, crc, encode = "";
+                cout<<"Enter a message"<<endl;
+                getline(cin,msg);
+                cout<<"Enter the CRC generator polynomial "<<endl;
+                getline(cin,crc);
+                int m = msg.length();
+                n =crc.length();
+                encode+=msg;
+                for(int i=0;i<n-1;i++)
+                    encode+='0';   
+
+                for (int i=0 ;i<=encode.length()-n;)  // stop when we complete all the message bits
+                {
+                    for(int j=0;j<n;j++)
+                    {
+                        if(encode[i+j]==crc[j])  // condition for 1 XOR 1 or 0 XOR 0
+                            encode[i+j] = '0';
+                        else
+                            encode[i+j] = '1';
+                    }
+                    
+                    for(;i<encode.length() && encode[i]!='1';i++) ; // remainder 1 not 0 
+                        
+                    
+                }
+                for(int i= encode.length()-(n-1);i<encode.length();i++){
+                    msg+=encode[i];
+                }
+                cout<<endl<<"Sending message: "<<msg<<endl;
+                cout<<endl;
+                strcpy(dataToBeRead,msg.c_str());
+                switch(cz){
+
+                    case 1:
+                        send(newsockfd, dataToBeRead, sizeof(dataToBeRead), 0);
+                        break;
+                    case 2:
+
+                        encode_nrzi(dataToBeRead,encoded,50);
+                        send(newsockfd, encoded, sizeof(encoded), 0);
+                        break;
+
+                }
+                break;
+                }
+
+            case 3:
+                send(newsockfd, "3", 13, 0);
+                close(newsockfd);
+                close(sockfd);
+                return 0; 
+        }
     }
 
-    printf("\n\nShutting down server\n");
-    send(newsockfd, "CLOSE", 13, 0);
+    /* printf("\n\nShutting down server\n");
+    send(newsockfd, "CLOSE", 13, 0); */
 
 
-    close(newsockfd);
-    close(sockfd);
-    return 0; 
+    
 }
 
 void encode_nrzi(char *byte, char *encoded, int size){
@@ -175,3 +342,100 @@ void encode_nrzi(char *byte, char *encoded, int size){
     }
 }
 
+void encode_manchester(char *byte, char *encoded, int size){
+    int i,j, temp1, temp2, prev, val,k;
+    for(j = 0;j<size;j++){
+        temp1=0;
+        temp2 = 0;
+        for(i = 0; i <= 7; i ++){
+            
+            val = (byte[j] >> i) & 0x01;
+            if(i<4){
+                if(val == 0){
+                    temp1 = temp1+(1<<(i*2));
+                    temp1 = temp1+(0<<(i*2+1));
+                }
+                if(val == 1){
+                    temp1 = temp1+(0<<(i*2));
+                    temp1 = temp1+(1<<(i*2+1));             
+                }
+            }
+            else{
+                k = i-4;
+                if(val == 0){
+                    temp2 = temp2+(1<<(k*2));
+                    temp2 = temp2+(0<<(k*2+1));
+                }
+                if(val == 1){
+                    temp2 = temp2+(0<<(k*2));
+                    temp2 = temp2+(1<<(k*2+1));            
+                }
+            }
+        }
+        encoded[j*2] = temp1;
+        encoded[j*2+1] = temp2;
+    }
+}
+
+void encode_diff_manchester(char *byte, char *encoded, int size){
+    int i,j, temp1, temp2, prev = 0, val,k;
+    for(j = 0;j<size;j++){
+        temp1=0;
+        temp2 = 0;
+        for(i = 0; i <= 7; i ++){
+            
+            val = (byte[j] >> i) & 0x01;
+            if(i<4){
+                if(prev == 1){
+                    if(val == 0){
+                        temp1 = temp1+(0<<(i*2));
+                        temp1 = temp1+(1<<(i*2+1));
+                        prev = 0;
+                    }
+                    if(val == 1){
+                        temp1 = temp1+(1<<(i*2));
+                        temp1 = temp1+(0<<(i*2+1));               
+                    }
+                }
+                else{
+                    if(val == 0){
+                        temp1 = temp1+(1<<(i*2));
+                        temp1 = temp1+(0<<(i*2+1));
+                        prev = 1;
+                    }
+                    if(val == 1){
+                        temp1 = temp1+(0<<(i*2));
+                        temp1 = temp1+(1<<(i*2+1));           
+                    }
+                }
+            }
+            else{
+                k = i-4;
+                if(prev == 1){
+                    if(val == 0){
+                        temp2 = temp2+(0<<(k*2));
+                        temp2 = temp2+(1<<(k*2+1));
+                        prev = 0;
+                    }
+                    if(val == 1){
+                        temp2 = temp2+(1<<(k*2));
+                        temp2 = temp2+(0<<(k*2+1));           
+                    }
+                }
+                else{
+                    if(val == 0){
+                        temp2 = temp2+(1<<(k*2));
+                        temp2 = temp2+(0<<(k*2+1));
+                        prev = 1;
+                    }
+                    if(val == 1){
+                        temp2 = temp2+(0<<(k*2));
+                        temp2 = temp2+(1<<(k*2+1));        
+                    }
+                }
+            }
+        }
+        encoded[j*2] = temp1;
+        encoded[j*2+1] = temp2;
+    }
+}

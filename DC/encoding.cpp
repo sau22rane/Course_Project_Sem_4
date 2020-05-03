@@ -10,19 +10,19 @@ void decode_diff_manchester(char*,char*,int);
 
 int main()
 {
-    char byte[10] ,k[10],temp1, nrz_encoded[10],decoded[10],manchester_encoded[20];
+    char byte[100] ,k[100],temp1, nrz_encoded[100],decoded[100],manchester_encoded[200],dif_manchester_encoded[200];
     int i,val,prev,flag,temp=0,j;
 
     scanf("%s",byte);
-    encode_nrzi(byte,nrz_encoded,10);
-    decode_nrzi(nrz_encoded,decoded,10);
+    encode_nrzi(byte,nrz_encoded,100);
+    decode_nrzi(nrz_encoded,decoded,100);
     printf("%s\n",decoded);
 
-    encode_manchester(byte,manchester_encoded,10);
-    decode_manchester(manchester_encoded,decoded,10);
+    encode_manchester(byte,manchester_encoded,100);
+    decode_manchester(manchester_encoded,decoded,100);
     printf("%s\n",decoded);
-    encode_diff_manchester(byte,manchester_encoded,10);
-    decode_diff_manchester(manchester_encoded,decoded,10);
+    encode_diff_manchester(byte,dif_manchester_encoded,100);
+    decode_diff_manchester(dif_manchester_encoded,decoded,100);
     printf("%s\n",decoded);
 
     return 0;

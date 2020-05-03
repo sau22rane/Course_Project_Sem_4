@@ -37,11 +37,27 @@ input[type=text], input[type=password] {
 <body>
 <!-- PHP and Sql Connection -->
 <?php
+<<<<<<< HEAD
   include_once 'includes/connection.php';
   $sql = 'SELECT * FROM resident where username like(\''.$_SESSION['userId'].'\');';
         $result = mysqli_query($conn, $sql);
         $result_check = mysqli_num_rows($result);
         if($result_check>0){
+=======
+  $servername = "localhost";
+  $username = "root";
+  $dbname = "hsm";
+  
+  // Database connection
+  $conn = new mysqli($servername,$username, "", $dbname);
+
+
+  $sql = 'SELECT * FROM resident where username like(\''.$_SESSION['userId'].'\');';
+        $result = mysqli_query($conn, $sql);
+        $result_check = mysqli_num_rows($result);
+        if($result_check>0)
+        {
+>>>>>>> master
             $row = mysqli_fetch_assoc($result);
             $name = $row['name'];
             $wing = $row['wing'];
@@ -58,7 +74,11 @@ input[type=text], input[type=password] {
   <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
     <a class="w3-bar-item w3-button w3-left w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
     <a class="w3-bar-item"> <img src="pics/logo.png" style="width:25px;height:25px;"> HSMS</a>
+<<<<<<< HEAD
     <a class="w3-bar-item w3-button1 w3-right" href="login.html"> Logout</a>
+=======
+    <a class="w3-bar-item w3-button1 w3-right" href="login.php"> Logout</a>
+>>>>>>> master
   </div>
 </div>
 
@@ -97,7 +117,13 @@ input[type=text], input[type=password] {
           <label for="alternate_contact"><b>Alternate Contact Number:</b></label></br>
           <label type="text" name="alternate_contact"><?php echo $alternate_contact; ?></br><br>
           
+<<<<<<< HEAD
           <a class="w3-button1"  style="width:150px;" href = "changePass.php">Change Password </a>
+=======
+          <a class="w3-button1"  style="width:150px;" href = "editResDet.php">Change User Info</a>
+          <a class="w3-button1"  style="width:150px;" href = "changePass.php">Change Password </a>
+          
+>>>>>>> master
         </div>
     <div class="w3-container">
       <!-- Show all members of flat here -->

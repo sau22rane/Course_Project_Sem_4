@@ -108,7 +108,16 @@ function w3_close() {
 <?php
 	if(isset($_POST["login-submit"]))
 	{
+<<<<<<< HEAD
 		include_once 'includes/connection.php';
+=======
+		$servername = "localhost";
+		$username = "root";
+		$dbname = "hsm";
+		
+		// Database connection
+		$conn = new mysqli($servername,$username, "", $dbname);
+>>>>>>> master
 
 		$username = $_POST["uname"];
 		$password = $_POST["psw"];
@@ -130,7 +139,11 @@ function w3_close() {
 
 			if($row = mysqli_fetch_assoc($result))   // If query is not empty
 			{    
+<<<<<<< HEAD
 				if($password != $row['pwd'])
+=======
+				if($password != $row['password'])
+>>>>>>> master
 				{
 					echo '<script type="text/javascript">';
 					echo ' alert("Wrong Password")';   
@@ -144,8 +157,12 @@ function w3_close() {
 					
 					if($row['login_type']==0)
 					{
+<<<<<<< HEAD
 						header("Location: resident.php?login=success");
 						
+=======
+						header("Location: resident.php?login=success");	
+>>>>>>> master
 					}
 
 					else if($row['login_type']==1)

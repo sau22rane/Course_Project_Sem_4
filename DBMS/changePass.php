@@ -130,11 +130,21 @@ function myFunction(){
 <?php
 	if(isset($_POST["change-password"]))
 	{
+<<<<<<< HEAD
 		include_once 'includes/connection.php';
+=======
+		$servername = "localhost";
+		$username = "root";
+		$dbname = "hsm";
+		
+		// Database connection
+		$conn = new mysqli($servername,$username, "", $dbname);
+>>>>>>> master
 
 		$op = $_POST["op"];
 		$np = $_POST["np"];
 		$cnp = $_POST["cnp"];
+<<<<<<< HEAD
 		
 		
         
@@ -149,13 +159,40 @@ function myFunction(){
             if($row = mysqli_fetch_assoc($result))   // If query is not empty
             {    
                 if($op != $row['pwd'])
+=======
+		$user = $_SESSION['userId'];
+   
+		if($np != $cnp)
+		{
+            echo '<script type="text/javascript">';
+            echo ' alert("Password doesn\'t match")';   
+            echo '</script>';
+		}
+		
+		else
+		{
+            $sql = "SELECT * FROM login where username like ('$user');";
+		    $result = mysqli_query($conn, $sql);
+			
+			if($row = mysqli_fetch_assoc($result))   // If query is not empty
+            {    
+                if($op != $row['password'])
+>>>>>>> master
                 {
                     echo '<script type="text/javascript">';
                     echo ' alert("Wrong Password")';   
                     echo '</script>';
+<<<<<<< HEAD
                 }
                 else{
                     $password_update = 'UPDATE login SET pwd = \''.$np.'\' WHERE username like(\''.$_SESSION["userId"].'\');';
+=======
+				}
+				
+				else
+				{
+                    $password_update = "UPDATE login SET password = '$np' WHERE username like('$user');";
+>>>>>>> master
                     $result = mysqli_query($conn, $password_update);
 
                         echo '<script type="text/javascript">';
