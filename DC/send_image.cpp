@@ -1,15 +1,14 @@
 #define _DEFAULT_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 #include <sys/types.h> 
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <string.h>
-#include<iostream>
-#include<string>
+#include <iostream>
+#include <string>
 using namespace std;
 
 void encode_nrzi(char*,char*,int);
@@ -23,10 +22,6 @@ int main(){
     int opt = 1;
     char ip_address[20], password[20], name[20];
     struct sockaddr_in serv_addr, cli_addr;
-    /* if (argc < 2) {
-        printf("ERROR, no port provided\n");
-        exit(1);
-    } */
 
     printf("Enter the IP address of this PC: ");
     scanf("%s",ip_address);
@@ -35,7 +30,7 @@ int main(){
     printf("Create a password for server: ");
     scanf("%s",password);
     scanf("%*c");
-    printf("Setting up server\nWaiting for Connections\n\n");
+    printf("Setting up server\nWaiting for Connections\n");
 
     sockfd =  socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) 
@@ -46,13 +41,8 @@ int main(){
         printf("setsockopt"); 
         exit(EXIT_FAILURE); 
     } 
-        /* The bzero() function erases the data in the n bytes of the memory
-        starting at the location pointed to by s, by writing zeros (bytes 
-        containing '\0') to that area. */
     bzero((char *) &serv_addr, sizeof(serv_addr));
-        /* The C library function int atoi(const char *str) converts the string 
-        argument str to an integer (type int). */
-    //port_no = atoi(argv[1]);
+
         /* AF_INET      		IPv4 Internet protocols  */
     serv_addr.sin_family = AF_INET;
         /* Automatically fill the host's IP(Current PC) */
@@ -66,7 +56,7 @@ int main(){
     listen(sockfd,1);
 
 
-    //Ckecking for the requests
+    //Checking for the requests
     clilen = sizeof(cli_addr);
         /* accept() function will write the connecting client's address info into the the address structure */
     newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
@@ -77,10 +67,12 @@ int main(){
     //send a data
     send(newsockfd, password, strlen(password), 0);
     
+
+    //SYN/ASYN and ACK
     n = read(newsockfd,buffer,255);
     if (n < 0)
         printf("ERROR reading from socket");
-    printf("server: got connection from %s port %d\n", inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
+    printf("SERVER: got connection from %s port %d\n\n", inet_ntoa(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
     printf("Recieved Message: %s\n",buffer);
 
 
@@ -88,13 +80,8 @@ int main(){
         printf("Sending SYN_ACK\n");
         send(newsockfd, "SYN_ACK", 13, 0);
     }
-
-    
+   
     bzero(buffer,256);
-
-
-     
-    //SYN/ASYN and ACK
     n = read(newsockfd,buffer,255);
     if (n < 0)
         printf("ERROR reading from socket");
@@ -108,6 +95,7 @@ int main(){
     int choice, encoding;
     char encoded[50], dataToBeRead[50],man_data[25];
     while(1){
+        printf("------------------------------------------------------------");
         printf("\n\nSelect one of the following option:\n1. Send data\n2. Demonstrate CRC\n3. close connection\nYour choice: ");
         scanf("%d",&choice);
         scanf("%*c");
@@ -116,7 +104,7 @@ int main(){
                 //Send Image
                 send(newsockfd, "1", 11, 0);
                 n = read(sockfd, buffer, sizeof(buffer));
-                printf("\nSelect one of the following encoding:\n1. NRZ-I\n2. Manchester\n3. Differential Manchester\nYour choice: ");
+                printf("\n\nSelect one of the following encoding:\n1. NRZ-I\n2. Manchester\n3. Differential Manchester\nYour choice: ");
                 scanf("%d",&encoding);
                 scanf("%*c");
                 FILE *fpread;
@@ -125,7 +113,7 @@ int main(){
                     //NRZ-I encoding
                     send(newsockfd, "1", 10, 0);
                     n = read(sockfd, buffer, sizeof(buffer));
-                    printf("\nEnter file name to be sent: ");
+                    printf("\nEnter file path to be sent: ");
                     scanf("%s",name);
                     scanf("%*c");
                     send(newsockfd, name, sizeof(name), 0);
@@ -249,12 +237,12 @@ int main(){
                 {
                     send(newsockfd, "2", 13, 0);
                 int cz;
-                printf("Select one of the following alternative\n1. Send a message\n2. Tamper message\nYour selection: ");
+                printf("\nSelect one of the following alternative\n1. Send a message\n2. Tamper message\nYour selection: ");
                 scanf("%d",&cz);
                 scanf("%*c");
 
                 string msg, crc, encode = "";
-                cout<<"Enter a message"<<endl;
+                cout<<endl<<"Enter a message"<<endl;
                 getline(cin,msg);
                 cout<<"Enter the CRC generator polynomial "<<endl;
                 getline(cin,crc);
@@ -303,12 +291,11 @@ int main(){
                 send(newsockfd, "3", 13, 0);
                 close(newsockfd);
                 close(sockfd);
+                printf("\n\nShutting down server\n");
                 return 0; 
         }
     }
 
-    /* printf("\n\nShutting down server\n");
-    send(newsockfd, "CLOSE", 13, 0); */
 
 
     

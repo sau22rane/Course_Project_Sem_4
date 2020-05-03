@@ -99,6 +99,7 @@ int main()
     char name[30];
     
     while(1){
+        printf("------------------------------------------------------------");
         n = read(sockfd, buffer, sizeof(buffer));
         send(sockfd, "1", 10, 0);
         if(strcmp(buffer,"1")==0){
@@ -107,7 +108,7 @@ int main()
             
             //Read image 
             n = read(sockfd, name, sizeof(name));
-            printf("Recieving file %s from server\nEnter the name with path and extension to save the file: ",name);
+            printf("\nRecieving file %s from server\nEnter the name with path and extension to save the file: ",name);
             scanf("%s",name);
             scanf("%*c");
             //fpwrite = fopen(dataToBeRead, "wb") ; 
@@ -166,7 +167,7 @@ int main()
             int z=1;
             char dataToBeRead[50];
             n = read(sockfd, dataToBeRead, sizeof(dataToBeRead));
-            printf("message recieved: %s\n",dataToBeRead);
+            printf("\nMessage recieved: %s\n",dataToBeRead);
             string msg = convertToString(dataToBeRead, strlen(dataToBeRead));
             string encode="",crc;
             cout<<"Enter the CRC generator polynomial "<<endl;
@@ -194,14 +195,14 @@ int main()
             {
                 if(encode[i]!= '0')
                 {
-                    cout<<"Error detected"<<endl;
+                    cout<<"Error detected"<<endl<<endl;
                     z=0;
                     break;
                     
                 }
             }
             if(z)
-                cout<<"No Error detected"<<endl;
+                cout<<"No Error detected"<<endl<<endl;
 
 
         }
