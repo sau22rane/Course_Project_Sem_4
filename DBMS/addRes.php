@@ -48,7 +48,7 @@ input[type=text], input[type=password]
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
-  <a class="w3-bar-item w3-button w3-hover-black" href="admin.php">New Registration</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="admin.php">New Action</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="logout.php">Logout</a>
 </nav>
 
