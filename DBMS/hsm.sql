@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 04, 2020 at 11:41 AM
+-- Generation Time: May 04, 2020 at 12:12 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -110,7 +110,7 @@ CREATE TABLE `visitor_all` (
   `flat_no` int(11) NOT NULL,
   `wing` varchar(20) NOT NULL,
   `time_in` datetime NOT NULL,
-  `time_out` datetime NOT NULL
+  `time_out` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
