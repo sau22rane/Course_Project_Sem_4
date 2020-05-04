@@ -1,3 +1,20 @@
+<?php
+
+
+session_start();
+if(time()- $_SESSION["login_time"]>20)
+   {
+	header("Location: logout.php?error=login_timeout");
+}
+else
+{
+	$_SESSION["login_time"] = time();
+}
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <title>Hello Visitor!</title>

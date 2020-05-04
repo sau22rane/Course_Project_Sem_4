@@ -2,6 +2,7 @@
 
 <?php
    session_start();
+   
    if(!isset($_SESSION["userId"]))
    {
       header("Location: login.php?error=scripting_error");
@@ -88,7 +89,7 @@ input[type=text], input[type=password] {
   <h4 class="w3-bar-item"><b>Menu</b></h4>
   <a class="w3-bar-item w3-button w3-hover-black" href = "resident.php" >Resident Info</a>
   <a class="w3-bar-item w3-button w3-hover-black" href = "rguests.php">View guest history</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href = "">Logout</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href = "logout.php">Logout</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->

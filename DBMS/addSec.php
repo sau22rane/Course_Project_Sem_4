@@ -115,8 +115,10 @@ function w3_close() {
 
 
 <?php   
+    
     if (isset($_POST["submit"]))
     {
+
 		$servername = "localhost";
 		$username = "root";
 		$dbname = "hsm";
