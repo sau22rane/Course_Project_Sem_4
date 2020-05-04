@@ -145,7 +145,8 @@ function w3_close() {
 				{
 
 					session_start();
-					$_SESSION['userId'] = $row['username'];
+          $_SESSION['userId'] = $row['username'];
+          $_SESSION['login_time'] = time();
 					
 					if($row['login_type']==0)
 					{

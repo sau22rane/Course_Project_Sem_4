@@ -1,3 +1,21 @@
+<?php
+  session_start();
+  
+  if(!isset($_SESSION["userId"]))
+  {
+     header("Location: login.php?error=scripting_error");
+  }
+  if(time()- $_SESSION["login_time"]>20)
+   {
+    header("Location: logout.php?error=login_timeout");
+   }
+   else
+   {
+    $_SESSION["login_time"] = time();
+   }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <title>Welcome to Housing Society Management System</title>
