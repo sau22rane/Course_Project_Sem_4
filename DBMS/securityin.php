@@ -174,8 +174,9 @@ function w3_close() {
 				die("Connection failed: " . mysqli_connect_error());
 			}
 				
-			$sql = "INSERT INTO visitor VALUES ('$id','$name', '$cno', '$vno', '$add', '$flat', '$wing', now(), 'NULL')";
-			$sql1 = "INSERT INTO visitor_all VALUES ('$id','$name', '$cno', '$vno', '$add', '$flat', '$wing', now(), 'NULL')";
+			$sql = "INSERT INTO visitor (visitor_id, name, contact_no, vehicle_no, address, flat_no, wing, time_in) VALUES ('$id','$name', '$cno', '$vno', '$add', '$flat', '$wing', now());";
+
+			$sql1 = "INSERT INTO visitor_all (visitor_id, name, contact_no, vehicle_no, address, flat_no, wing, time_in) VALUES ('$id','$name', '$cno', '$vno', '$add', '$flat', '$wing', now());";
 
 			$result = mysqli_query($conn, $sql);
 			$result1 = mysqli_query($conn, $sql1);
@@ -184,7 +185,6 @@ function w3_close() {
 			{
 				if ($result1)
 				{
-					echo ("!");
 					echo '<script type="text/javascript">';
 					echo ' alert("Successfully added to the Database")';   
 					echo '</script>';	
@@ -193,16 +193,15 @@ function w3_close() {
 				else 
 				{
 					echo '<script type="text/javascript">';
-					echo ' alert("Could not add to the Database")';   
+					echo ' alert("Could not add to the Database - IN")';   
 					echo '</script>';
 				}	
 			} 
 			
 			else 
-			{
-				echo ("!!!");	
+			{	
 				echo '<script type="text/javascript">';
-				echo ' alert("Could not add to the Database")';   
+				echo ' alert("Could not add to the Database - OUT")';   
 				echo '</script>';
 			}	
 		}
