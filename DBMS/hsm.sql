@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 03, 2020 at 04:37 PM
+-- Generation Time: May 04, 2020 at 11:41 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -139,13 +139,13 @@ ALTER TABLE `resident`
 -- Indexes for table `visitor`
 --
 ALTER TABLE `visitor`
-  ADD PRIMARY KEY (`name`,`contact_no`);
+  ADD PRIMARY KEY (`visitor_id`);
 
 --
 -- Indexes for table `visitor_all`
 --
 ALTER TABLE `visitor_all`
-  ADD PRIMARY KEY (`name`,`contact_no`);
+  ADD PRIMARY KEY (`visitor_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
