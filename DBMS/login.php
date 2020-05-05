@@ -141,12 +141,35 @@ function w3_close() {
 					echo ' alert("Wrong Password")';   
 					echo '</script>';
 				}
+				
 				else   // If password is correct
 				{
 
+					$sql1 = "select * from session;";
+					$result = mysqli_query($conn, $sql1);
+					
+					while ($row2 = mysqli_fetch_assoc($result))
+					{
+						if ($row2["status"] == 1)
+						{
+							header ("Location: login.php?error=on_going_session");	
+							die;			
+						}
+					} 
+
 					session_start();
-          $_SESSION['userId'] = $row['username'];
-          $_SESSION['login_time'] = time();
+					$id = session_id();
+					$status = 1;
+
+         			$_SESSION['userId'] = $row['username'];
+					$_SESSION['login_time'] = time();
+					
+					echo ($id);
+					echo ($username);
+					
+					$sql1 = "INSERT INTO session (username, id, status) VALUES ('$username', '$id', '$status');";
+					mysqli_query($conn, $sql1);
+					
 					
 					if($row['login_type']==0)
 					{

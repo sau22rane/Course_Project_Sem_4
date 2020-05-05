@@ -2,7 +2,7 @@
 
 
 session_start();
-if(time()- $_SESSION["login_time"]>20)
+if(time()- $_SESSION["login_time"]>60)
    {
 	header("Location: logout.php?error=login_timeout");
 }
@@ -192,7 +192,6 @@ function w3_close() {
 			}
 				
 			$sql = "INSERT INTO visitor (visitor_id, name, contact_no, vehicle_no, address, flat_no, wing, time_in) VALUES ('$id','$name', '$cno', '$vno', '$add', '$flat', '$wing', now());";
-
 			$sql1 = "INSERT INTO visitor_all (visitor_id, name, contact_no, vehicle_no, address, flat_no, wing, time_in) VALUES ('$id','$name', '$cno', '$vno', '$add', '$flat', '$wing', now());";
 
 			$result = mysqli_query($conn, $sql);
